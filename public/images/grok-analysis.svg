@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <!-- Fondo -->
+  <rect width="600" height="400" fill="#fff"/>
+  
+  <!-- Título -->
+  <text x="300" y="80" fill="#333" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24">Grok AI Analysis</text>
+  
+  <!-- Logo xAI estilizado -->
+  <g transform="translate(260, 110)">
+    <circle cx="40" cy="0" r="25" fill="#1DA1F2"/>
+    <text x="40" y="8" fill="#fff" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="16">xAI</text>
+  </g>
+  
+  <!-- Burbujas de Chat -->
+  <g transform="translate(80, 160)">
+    <!-- Chat izquierdo (Usuario) -->
+    <rect x="0" y="0" width="200" height="40" rx="20" fill="#f0f0f0"/>
+    <text x="100" y="25" fill="#666" text-anchor="middle" font-family="Arial" font-size="14">¿Qué opinas del futuro de la IA?</text>
+    
+    <!-- Chat derecho (Grok) con toque de humor -->
+    <rect x="240" y="0" width="200" height="60" rx="20" fill="#1DA1F2" opacity="0.9"/>
+    <text x="340" y="25" fill="#fff" text-anchor="middle" font-family="Arial" font-size="14">¡Déjame pensar con un</text>
+    <text x="340" y="45" fill="#fff" text-anchor="middle" font-family="Arial" font-size="14">toque de humor! 😄</text>
+    
+    <!-- Chat izquierdo (Usuario) -->
+    <rect x="0" y="80" width="200" height="40" rx="20" fill="#f0f0f0"/>
+    <text x="100" y="105" fill="#666" text-anchor="middle" font-family="Arial" font-size="14">¿Eres mejor que ChatGPT?</text>
+    
+    <!-- Chat derecho (Grok) con sarcasmo -->
+    <rect x="240" y="80" width="200" height="60" rx="20" fill="#1DA1F2" opacity="0.9"/>
+    <text x="340" y="105" fill="#fff" text-anchor="middle" font-family="Arial" font-size="14">¡Eso depende! ¿Te gustan</text>
+    <text x="340" y="125" fill="#fff" text-anchor="middle" font-family="Arial" font-size="14">los chistes malos? 🤖</text>
+  </g>
+  
+  <!-- Características -->
+  <g transform="translate(100, 320)">
+    <rect width="400" height="50" rx="8" fill="#1DA1F2" opacity="0.1"/>
+    <text x="200" y="20" fill="#333" text-anchor="middle" font-family="Arial" font-size="16">Análisis de IA Conversacional</text>
+    <text x="200" y="40" fill="#666" text-anchor="middle" font-family="Arial" font-size="14">Humor • Sarcasmo • Conocimiento en Tiempo Real</text>
+  </g>
+  
+  <!-- Elementos decorativos -->
+  <g transform="translate(0, 0)" opacity="0.1">
+    <circle cx="50" cy="50" r="20" fill="#1DA1F2"/>
+    <circle cx="550" cy="50" r="20" fill="#1DA1F2"/>
+    <circle cx="50" cy="350" r="20" fill="#1DA1F2"/>
+    <circle cx="550" cy="350" r="20" fill="#1DA1F2"/>
+  </g>
+</svg>
