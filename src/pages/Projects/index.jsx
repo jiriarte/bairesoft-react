@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const ProjectsSection = styled.section`
   padding: 8rem 2rem;
@@ -94,7 +95,7 @@ const ProjectDescription = styled.p`
   margin-bottom: 1rem;
 `;
 
-const ProjectLink = styled.a`
+const ProjectLink = styled(Link)`
   color: white;
   text-decoration: none;
   font-weight: 500;
@@ -112,32 +113,38 @@ const Projects = () => {
     {
       title: "E-commerce Platform",
       description: "Plataforma de comercio electrónico con gestión de inventario y pagos integrados.",
-      image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80"
+      image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80",
+      path: "/projects/e-commerce-platform"
     },
     {
       title: "App de Gestión",
       description: "Sistema de gestión empresarial con análisis de datos en tiempo real.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+      path: "/projects/app-de-gestion"
     },
     {
       title: "IoT Dashboard",
       description: "Panel de control para dispositivos IoT con monitoreo y alertas.",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+      path: "/projects/iot-dashboard"
     },
     {
-      title: "App Móvil Fitness",
-      description: "Aplicación de seguimiento de ejercicios y nutrición personalizada.",
-      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+      title: "ERP Industrial",
+      description: "Solución ERP para la gestión industrial.",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+      path: "/projects/erp-industrial"
     },
     {
       title: "Sistema de Reservas",
       description: "Plataforma de reservas online para restaurantes y servicios.",
-      image: "https://images.unsplash.com/photo-1567521464027-f127ff144326?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+      image: "https://images.unsplash.com/photo-1567521464027-f127ff144326?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+      path: "/projects/sistema-de-reservas"
     },
     {
       title: "Plataforma Educativa",
       description: "Sistema de aprendizaje en línea con cursos interactivos.",
-      image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+      image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+      path: "/projects/plataforma-educativa"
     }
   ];
 
@@ -173,7 +180,7 @@ const Projects = () => {
               <ProjectOverlay>
                 <ProjectTitle>{project.title}</ProjectTitle>
                 <ProjectDescription>{project.description}</ProjectDescription>
-                <ProjectLink href="#">
+                <ProjectLink to={project.path}>
                   Ver más <i className="fas fa-arrow-right"></i>
                 </ProjectLink>
               </ProjectOverlay>

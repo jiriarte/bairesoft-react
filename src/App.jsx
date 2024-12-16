@@ -20,6 +20,12 @@ import LowCode from './pages/Services/LowCode';
 import IAMachineLearning from './pages/Services/IAMachineLearning';
 import ConsultoriaIT from './pages/Services/ConsultoriaIT';
 import BlogPost from './pages/BlogPost';
+import EcommercePlatform from './pages/Projects/e-commerce-platform';
+import AppDeGestion from './pages/Projects/app-de-gestion';
+import IoTDashboard from './pages/Projects/iot-dashboard';
+import ERPIndustrial from './pages/Projects/erp-industrial';
+import SistemaDeReservas from './pages/Projects/sistema-de-reservas';
+import PlataformaEducativa from './pages/Projects/plataforma-educativa';
 
 function App() {
   return (
@@ -39,6 +45,12 @@ function App() {
             <Route path="/services/consultoria-it" element={<ConsultoriaIT />} />
             <Route path="/custom-software" element={<CustomSoftware />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/e-commerce-platform" element={<EcommercePlatform />} />
+            <Route path="/projects/app-de-gestion" element={<AppDeGestion />} />
+            <Route path="/projects/iot-dashboard" element={<IoTDashboard />} />
+            <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
+            <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
+            <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />

@@ -174,15 +174,9 @@ const Footer = () => {
 
         <FooterColumn>
           <FooterTitle>Contacto</FooterTitle>
-          <ExternalLink href="tel:+34900000000">
-            📞 +34 900 000 000
-          </ExternalLink>
-          <ExternalLink href="mailto:info@bairesoft.com">
-            ✉️ info@bairesoft.com
-          </ExternalLink>
-          <ExternalLink href="https://maps.google.com" target="_blank">
-            📍 Madrid, España
-          </ExternalLink>
+          <FooterText>Teléfono: +34 611 649 151</FooterText>
+          <FooterText>Dirección: Almansa, 02640, Albacete, España</FooterText>
+          <FooterText>WhatsApp: <ExternalLink href="https://wa.me/34611649151" target="_blank" rel="noopener noreferrer">Contactar por WhatsApp</ExternalLink></FooterText>
         </FooterColumn>
       </FooterContent>
 

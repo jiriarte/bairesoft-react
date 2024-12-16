@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, Suspense, lazy } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { FixedSizeGrid } from 'react-window';
 import { blogPosts, categories, tags } from '../../data/blogPosts';
 import { FaShare, FaTwitter, FaLinkedin, FaFacebook } from 'react-icons/fa';
 
+// Constantes
+const POSTS_PER_PAGE = 6;
+const ANIMATION_DURATION = 0.5;
+const ANIMATION_DELAY = 0.2;
+const GRID_COLUMN_COUNT = 3;
+const CARD_HEIGHT = 400;
+
+// Estilos base
 const Container = styled.div`
   min-height: 100vh;
   padding: 6rem 2rem;
@@ -15,22 +24,52 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
+// Componentes de cabecera
 const Header = styled.div`
   text-align: center;
   margin-bottom: 4rem;
 `;
 
 const Title = styled(motion.h1)`
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem);
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 1rem;
 `;
 
 const Description = styled(motion.p)`
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: ${({ theme }) => theme.colors.text};
   max-width: 800px;
   margin: 0 auto;
+`;
+
+// Componentes de búsqueda y filtros
+const SearchContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}20;
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textLight};
+  }
 `;
 
 const FiltersContainer = styled.div`
@@ -45,18 +84,28 @@ const FilterSelect = styled.select`
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
   font-size: 1rem;
+  font-family: inherit;
   cursor: pointer;
   min-width: 200px;
+  appearance: auto;
 
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
   }
+
+  option {
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.text};
+    font-family: inherit;
+    padding: 0.5rem;
+  }
 `;
 
+// Componentes de etiquetas
 const TagsContainer = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -80,6 +129,17 @@ const Tag = styled.button`
   }
 `;
 
+// Componente de carga
+const LoadingSpinner = styled(motion.div)`
+  width: 50px;
+  height: 50px;
+  border: 5px solid ${({ theme }) => theme.colors.border};
+  border-top-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 50%;
+  margin: 2rem auto;
+`;
+
+// Componentes de blog
 const BlogGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -87,232 +147,90 @@ const BlogGrid = styled.div`
   margin-bottom: 3rem;
 `;
 
-const BlogCard = styled(motion.article)`
-  background: ${({ theme }) => theme.colors.card};
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-`;
-
-const BlogImageContainer = styled.div`
-  position: relative;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
-  background: ${({ theme }) => theme.colors.border};
-`;
-
-const BlogImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-
-  ${BlogCard}:hover & {
-    transform: scale(1.05);
-  }
-`;
-
-const BlogContent = styled.div`
-  padding: 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const BlogTitle = styled.h3`
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 1rem;
-  line-height: 1.4;
-`;
-
-const BlogExcerpt = styled.div`
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 1rem;
-  line-height: 1.6;
-  flex-grow: 1;
-`;
-
-const BlogMeta = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.textLight};
-  font-size: 0.9rem;
-  margin-top: auto;
-`;
-
-const PostDate = styled.span`
-  color: ${({ theme }) => theme.colors.textLight};
-`;
-
-const BlogCategory = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
-  font-weight: bold;
-`;
-
-const ShareContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
-const ShareButton = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.colors.textLight};
-  cursor: pointer;
-  padding: 0.25rem;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
-`;
-
-const ReadMoreButton = styled(Link)`
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: ${({ theme }) => theme.colors.primary};
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryDark};
-  }
-`;
-
-const ExternalLink = styled.a`
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: ${({ theme }) => theme.colors.card};
-  color: ${({ theme }) => theme.colors.text};
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.border};
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
-const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
-`;
-
-const PageButton = styled.button`
-  padding: 0.5rem 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ active, theme }) => active ? theme.colors.primary : theme.colors.card};
-  color: ${({ active, theme }) => active ? 'white' : theme.colors.text};
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary};
-    color: white;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const POSTS_PER_PAGE = 6;
+// Lazy loading de componentes pesados
+const BlogCard = lazy(() => import('./BlogCard'));
 
 const Blog = () => {
-  const [selectedCategory, setSelectedCategory] = useState('');
+  // Estados
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTags, setSelectedTags] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState(blogPosts);
-  const [sortBy, setSortBy] = useState('date');
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    let filtered = [...blogPosts];
-
-    if (selectedCategory) {
-      filtered = filtered.filter(post => post.category === selectedCategory);
-    }
-
-    if (selectedTags.length > 0) {
-      filtered = filtered.filter(post => 
-        selectedTags.some(tag => post.tags.includes(tag))
-      );
-    }
-
-    filtered.sort((a, b) => {
-      if (sortBy === 'date') {
-        return new Date(b.date) - new Date(a.date);
-      }
-      return 0;
+  // Filtrado de posts memoizado con debounce
+  const filteredPosts = useMemo(() => {
+    setIsLoading(true);
+    const result = blogPosts.filter(post => {
+      const categoryMatch = selectedCategory === 'all' || post.category === selectedCategory;
+      const tagsMatch = selectedTags.length === 0 || selectedTags.some(tag => post.tags.includes(tag));
+      const searchMatch = !searchQuery || 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+      return categoryMatch && tagsMatch && searchMatch;
     });
+    setIsLoading(false);
+    return result;
+  }, [selectedCategory, selectedTags, searchQuery]);
 
-    setFilteredPosts(filtered);
+  // Paginación memoizada
+  const currentPosts = useMemo(() => {
+    const indexOfLastPost = currentPage * POSTS_PER_PAGE;
+    const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
+    return filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  }, [filteredPosts, currentPage]);
+
+  // Grid renderer para virtualización
+  const GridCell = useCallback(({ columnIndex, rowIndex, style }) => {
+    const index = rowIndex * GRID_COLUMN_COUNT + columnIndex;
+    if (index >= currentPosts.length) return null;
+    
+    const post = currentPosts[index];
+    
+    return (
+      <div style={style}>
+        <Suspense fallback={<LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }} />}>
+          <BlogCard
+            post={post}
+            onImageError={handleImageError}
+            style={{ margin: '1rem' }}
+          />
+        </Suspense>
+      </div>
+    );
+  }, [currentPosts]);
+
+  // Manejadores de eventos
+  const handleCategoryChange = useCallback((e) => {
+    setSelectedCategory(e.target.value);
     setCurrentPage(1);
-  }, [selectedCategory, selectedTags, sortBy]);
+  }, []);
 
-  const handleTagClick = (tag) => {
-    setSelectedTags(prev => 
+  const handleSearchChange = useCallback((e) => {
+    const { value } = e.target;
+    // Debounce la búsqueda para evitar demasiadas actualizaciones
+    const timeoutId = setTimeout(() => {
+      setSearchQuery(value);
+      setCurrentPage(1);
+    }, 300);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  const toggleTag = useCallback((tag) => {
+    setSelectedTags(prev =>
       prev.includes(tag)
         ? prev.filter(t => t !== tag)
         : [...prev, tag]
     );
-  };
+    setCurrentPage(1);
+  }, []);
 
-  const handleShare = (platform, post) => {
-    const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent(post.title);
-    let shareUrl = '';
-
-    switch (platform) {
-      case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
-        break;
-      case 'linkedin':
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
-        break;
-      case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        break;
-      default:
-        return;
-    }
-
-    window.open(shareUrl, '_blank', 'width=600,height=400');
-  };
-
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
-  const currentPosts = filteredPosts.slice(
-    (currentPage - 1) * POSTS_PER_PAGE,
-    currentPage * POSTS_PER_PAGE
-  );
+  const handleImageError = useCallback((e) => {
+    e.target.src = '/images/placeholder.jpg';
+  }, []);
 
   return (
     <Container>
@@ -321,36 +239,38 @@ const Blog = () => {
           <Title
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: ANIMATION_DURATION }}
           >
-            Blog de Tecnología y Tendencias
+            Blog
           </Title>
           <Description
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: ANIMATION_DURATION, delay: ANIMATION_DELAY }}
           >
-            Mantente al día con las últimas novedades en IA, desarrollo de software y transformación digital
+            Descubre las últimas tendencias y novedades en tecnología y desarrollo de software
           </Description>
         </Header>
+
+        <SearchContainer>
+          <SearchInput
+            type="text"
+            placeholder="Buscar artículos..."
+            onChange={handleSearchChange}
+          />
+        </SearchContainer>
 
         <FiltersContainer>
           <FilterSelect
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            onChange={handleCategoryChange}
           >
-            <option value="">Todas las categorías</option>
+            <option value="all">Todas las categorías</option>
             {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
-          </FilterSelect>
-
-          <FilterSelect
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="date">Más recientes</option>
-            <option value="popular">Más populares</option>
           </FilterSelect>
         </FiltersContainer>
 
@@ -359,88 +279,48 @@ const Blog = () => {
             <Tag
               key={tag}
               active={selectedTags.includes(tag)}
-              onClick={() => handleTagClick(tag)}
+              onClick={() => toggleTag(tag)}
             >
               {tag}
             </Tag>
           ))}
         </TagsContainer>
 
-        <BlogGrid>
-          {currentPosts.map((post, index) => (
-            <BlogCard
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <BlogImageContainer>
-                <BlogImage 
-                  src={post.imageUrl} 
-                  alt={post.title}
-                  onError={(e) => {
-                    e.target.src = '/blog/placeholder.jpg';
-                  }}
-                />
-              </BlogImageContainer>
-              <BlogContent>
-                <BlogTitle>{post.title}</BlogTitle>
-                <BlogExcerpt>{post.excerpt}</BlogExcerpt>
-                <BlogMeta>
-                  <PostDate>{new Date(post.date).toLocaleDateString()}</PostDate>
-                  <BlogCategory>{post.category}</BlogCategory>
-                </BlogMeta>
-                <TagsContainer>
-                  {post.tags.map((tag, idx) => (
-                    <Tag
-                      key={idx}
-                      active={selectedTags.includes(tag)}
-                      onClick={() => handleTagClick(tag)}
-                    >
-                      {tag}
-                    </Tag>
-                  ))}
-                </TagsContainer>
-                <ButtonContainer>
-                  <ReadMoreButton to={`/blog/${post.id}`}>
-                    Leer artículo completo
-                  </ReadMoreButton>
-                  <ExternalLink 
-                    href={post.externalUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    Ver fuente original
-                  </ExternalLink>
-                </ButtonContainer>
-              </BlogContent>
-            </BlogCard>
-          ))}
-        </BlogGrid>
-
-        {totalPages > 1 && (
-          <Pagination>
-            <PageButton
-              onClick={() => setCurrentPage(prev => prev - 1)}
-              disabled={currentPage === 1}
-            >
-              Anterior
-            </PageButton>
-            {[...Array(totalPages)].map((_, i) => (
-              <PageButton
-                key={i + 1}
-                active={currentPage === i + 1}
-                onClick={() => setCurrentPage(i + 1)}
+        <AnimatePresence>
+          {isLoading ? (
+            <LoadingSpinner
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, rotate: 360 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, rotate: { duration: 1, repeat: Infinity } }}
+            />
+          ) : (
+            <BlogGrid>
+              <FixedSizeGrid
+                columnCount={GRID_COLUMN_COUNT}
+                columnWidth={300}
+                height={Math.ceil(currentPosts.length / GRID_COLUMN_COUNT) * CARD_HEIGHT}
+                rowCount={Math.ceil(currentPosts.length / GRID_COLUMN_COUNT)}
+                rowHeight={CARD_HEIGHT}
+                width={1200}
               >
-                {i + 1}
+                {GridCell}
+              </FixedSizeGrid>
+            </BlogGrid>
+          )}
+        </AnimatePresence>
+
+        {filteredPosts.length > POSTS_PER_PAGE && (
+          <Pagination>
+            {Array.from({ length: Math.ceil(filteredPosts.length / POSTS_PER_PAGE) }).map((_, index) => (
+              <PageButton
+                key={index + 1}
+                active={currentPage === index + 1}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
               </PageButton>
             ))}
-            <PageButton
-              onClick={() => setCurrentPage(prev => prev + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Siguiente
-            </PageButton>
           </Pagination>
         )}
       </Content>
@@ -448,4 +328,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default React.memo(Blog);

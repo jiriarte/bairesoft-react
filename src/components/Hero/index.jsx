@@ -24,7 +24,7 @@ const HeroContent = styled.div`
 `;
 
 const Title = styled(motion.h1)`
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(1.75rem, 5.6vw, 3.5rem);
   font-weight: 800;
   background: ${props => props.theme.colors.gradient};
   -webkit-background-clip: text;
@@ -35,7 +35,7 @@ const Title = styled(motion.h1)`
 `;
 
 const AnimatedText = styled(motion.div)`
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.05rem, 2.8vw, 1.4rem);
   font-weight: 600;
   color: ${props => props.theme.colors.text};
   margin-bottom: 2rem;
@@ -46,7 +46,7 @@ const AnimatedText = styled(motion.div)`
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-size: clamp(0.77rem, 1.4vw, 0.875rem);
   color: ${props => props.theme.colors.textLight};
   max-width: 600px;
   margin: 0 auto 2.5rem;
@@ -101,6 +101,16 @@ const GradientBlur = styled(motion.div)`
   z-index: 0;
 `;
 
+const HeroAnimation = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+`;
+
 const Hero = () => {
   const [textIndex, setTextIndex] = useState(0);
   const texts = [
@@ -120,18 +130,20 @@ const Hero = () => {
 
   return (
     <HeroSection>
-      <GradientBlur
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 0.15, scale: 1 }}
-        transition={{ duration: 1 }}
-        style={{ top: '10%', right: '-20%' }}
-      />
-      <GradientBlur
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 0.15, scale: 1 }}
-        transition={{ duration: 1 }}
-        style={{ bottom: '10%', left: '-20%' }}
-      />
+      <HeroAnimation>
+        <GradientBlur
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 1 }}
+          style={{ top: '10%', right: '-20%' }}
+        />
+        <GradientBlur
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 1 }}
+          style={{ bottom: '10%', left: '-20%' }}
+        />
+      </HeroAnimation>
       <HeroContent>
         <Title
           initial={{ opacity: 0, y: 20 }}
