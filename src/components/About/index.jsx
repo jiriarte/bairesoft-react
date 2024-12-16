@@ -152,7 +152,7 @@ const stats = [
   },
   {
     icon: <Award size={20} />,
-    number: "15+",
+    number: "17+",
     label: "Años de Experiencia"
   }
 ];
@@ -186,7 +186,7 @@ const About = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               En Bairesoft, nos especializamos en transformar ideas innovadoras en soluciones digitales efectivas. 
-              Con más de 15 años de experiencia, nuestro equipo de expertos combina creatividad y tecnología para 
+              Con más de 17 años de experiencia, nuestro equipo de expertos combina creatividad y tecnología para 
               impulsar el crecimiento de tu negocio. Nos enorgullece ofrecer soluciones personalizadas que se 
               adaptan perfectamente a las necesidades únicas de cada cliente.
             </Description>

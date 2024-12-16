@@ -6,7 +6,7 @@ import { FaShare, FaTwitter, FaLinkedin, FaFacebook } from 'react-icons/fa';
 
 const Card = styled(motion.article)`
   background: ${({ theme }) => theme.colors.card};
-  border-radius: 10px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -18,17 +18,26 @@ const Card = styled(motion.article)`
   &:hover {
     transform: translateY(-5px);
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    &:hover {
+      transform: none;
+    }
+  }
 `;
 
 const BlogImage = styled(Link)`
   position: relative;
   width: 100%;
-  height: 200px;
+  padding-top: 66.67%; /* Aspect ratio 3:2 */
   overflow: hidden;
   display: block;
 `;
 
 const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -37,28 +46,80 @@ const Image = styled.img`
   ${BlogImage}:hover & {
     transform: scale(1.05);
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    ${BlogImage}:hover & {
+      transform: none;
+    }
+  }
 `;
 
 const BlogContent = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding: 0.875rem;
+  }
 `;
 
 const BlogTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    font-size: 1.1rem;
+    margin-bottom: 0.375rem;
+  }
 `;
 
-const BlogExcerpt = styled.p`
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 1rem;
-  line-height: 1.6;
+const BlogMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  color: ${({ theme }) => theme.colors.textLight};
+  font-size: 0.9rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    font-size: 0.8rem;
+  }
+`;
+
+const SocialIcons = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  color: ${({ theme }) => theme.colors.textLight};
+  
+  svg {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-size: 1rem;
+    
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    gap: 0.5rem;
+    
+    svg {
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 const BlogCard = React.memo(({ post, onImageError, style }) => {
+  const handleImageError = (e) => {
+    e.target.src = '/images/default-blog.jpg';
+    if (onImageError) onImageError(post.id);
+  };
+
   return (
     <Card
       style={style}
@@ -70,26 +131,23 @@ const BlogCard = React.memo(({ post, onImageError, style }) => {
         <Image 
           src={post.imageUrl} 
           alt={post.title}
-          onError={onImageError}
+          onError={handleImageError}
           loading="lazy"
         />
       </BlogImage>
       <BlogContent>
         <Link to={`/blog/${post.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
           <BlogTitle>{post.title}</BlogTitle>
-          <BlogExcerpt>{post.excerpt}</BlogExcerpt>
         </Link>
-        <div style={{ marginTop: 'auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-            <span>{post.date}</span>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <FaTwitter />
-              <FaLinkedin />
-              <FaFacebook />
-              <FaShare />
-            </div>
-          </div>
-        </div>
+        <BlogMeta>
+          <span>{post.date}</span>
+          <SocialIcons>
+            <FaTwitter />
+            <FaLinkedin />
+            <FaFacebook />
+            <FaShare />
+          </SocialIcons>
+        </BlogMeta>
       </BlogContent>
     </Card>
   );

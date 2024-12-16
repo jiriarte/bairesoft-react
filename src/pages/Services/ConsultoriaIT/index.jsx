@@ -228,7 +228,7 @@ const ConsultoriaIT = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <StatNumber>16+</StatNumber>
+              <StatNumber>17+</StatNumber>
               <StatLabel>Años de Experiencia</StatLabel>
             </StatCard>
 
@@ -237,7 +237,7 @@ const ConsultoriaIT = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <StatNumber>500+</StatNumber>
+              <StatNumber>50+</StatNumber>
               <StatLabel>Proyectos Completados</StatLabel>
             </StatCard>
 
@@ -263,7 +263,7 @@ const ConsultoriaIT = () => {
             >
               <SolutionTitle>Experiencia Comprobada</SolutionTitle>
               <SolutionDescription>
-                Más de 16 años trabajando con PyMEs nos han dado un profundo 
+                Más de 17 años trabajando con PyMEs nos han dado un profundo 
                 entendimiento de sus necesidades y desafíos específicos.
               </SolutionDescription>
             </BenefitCard>

@@ -240,7 +240,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <h3>15+</h3>
+            <h3>17+</h3>
             <p>Años de Experiencia</p>
           </StatItem>
         </Stats>

@@ -101,7 +101,7 @@ const stats = [
   },
   {
     icon: <Briefcase />,
-    number: 200,
+    number: 50,
     label: "Proyectos Completados",
     suffix: "+"
   },

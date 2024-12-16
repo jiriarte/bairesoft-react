@@ -181,12 +181,28 @@ const Contact = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const result = await emailjs.sendForm(
+      console.log('Intentando enviar con los siguientes datos:', {
+        to_name: 'Admin',
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      });
+
+      const result = await emailjs.send(
         emailjsConfig.serviceId,
         emailjsConfig.templateId,
-        form.current,
-        emailjsConfig.publicKey
+        {
+          to_name: 'Admin',
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          reply_to: formData.email
+        }
       );
+
+      console.log('Resultado:', result);
 
       if (result.text === 'OK') {
         setStatus({
@@ -201,11 +217,11 @@ const Contact = () => {
         });
       }
     } catch (error) {
+      console.error('Error completo:', error);
       setStatus({
         type: 'error',
-        message: 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.'
+        message: `Error al enviar el mensaje: ${error.message || 'Por favor, inténtalo de nuevo.'}`
       });
-      console.error('Error:', error);
     } finally {
       setIsSubmitting(false);
     }

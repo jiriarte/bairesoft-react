@@ -16,18 +16,28 @@ const CARD_HEIGHT = 400;
 // Estilos base
 const Container = styled.div`
   min-height: 100vh;
-  padding: 6rem 2rem;
+  padding: 6rem 1rem 2rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding: 5rem 1rem 2rem;
+  }
 `;
 
 const Content = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 `;
 
 // Componentes de cabecera
 const Header = styled.div`
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const Title = styled(motion.h1)`
@@ -41,6 +51,11 @@ const Description = styled(motion.p)`
   color: ${({ theme }) => theme.colors.text};
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    font-size: 1rem;
+  }
 `;
 
 // Componentes de búsqueda y filtros
@@ -48,6 +63,11 @@ const SearchContainer = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto 2rem;
+  padding: 0 1rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -70,62 +90,10 @@ const SearchInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.textLight};
   }
-`;
 
-const FiltersContainer = styled.div`
-  margin-bottom: 2rem;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const FilterSelect = styled.select`
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 1rem;
-  font-family: inherit;
-  cursor: pointer;
-  min-width: 200px;
-  appearance: auto;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-  }
-
-  option {
-    background: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.text};
-    font-family: inherit;
-    padding: 0.5rem;
-  }
-`;
-
-// Componentes de etiquetas
-const TagsContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-  justify-content: center;
-`;
-
-const Tag = styled.button`
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  border: none;
-  background: ${({ active, theme }) => active ? theme.colors.primary : theme.colors.card};
-  color: ${({ active, theme }) => active ? 'white' : theme.colors.text};
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    background: ${({ active, theme }) => active ? theme.colors.primary : theme.colors.border};
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding: 0.875rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -144,7 +112,24 @@ const BlogGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.lg}) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem auto;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
 `;
 
 // Lazy loading de componentes pesados
@@ -152,103 +137,41 @@ const BlogCard = lazy(() => import('./BlogCard'));
 
 const Blog = () => {
   // Estados
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Filtrado de posts memoizado con debounce
+  // Filtrado de posts memoizado
   const filteredPosts = useMemo(() => {
     setIsLoading(true);
     const result = blogPosts.filter(post => {
-      const categoryMatch = selectedCategory === 'all' || post.category === selectedCategory;
-      const tagsMatch = selectedTags.length === 0 || selectedTags.some(tag => post.tags.includes(tag));
       const searchMatch = !searchQuery || 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      return categoryMatch && tagsMatch && searchMatch;
+      return searchMatch;
     });
     setIsLoading(false);
     return result;
-  }, [selectedCategory, selectedTags, searchQuery]);
-
-  // Paginación memoizada
-  const currentPosts = useMemo(() => {
-    const indexOfLastPost = currentPage * POSTS_PER_PAGE;
-    const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
-    return filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
-  }, [filteredPosts, currentPage]);
-
-  // Grid renderer para virtualización
-  const GridCell = useCallback(({ columnIndex, rowIndex, style }) => {
-    const index = rowIndex * GRID_COLUMN_COUNT + columnIndex;
-    if (index >= currentPosts.length) return null;
-    
-    const post = currentPosts[index];
-    
-    return (
-      <div style={style}>
-        <Suspense fallback={<LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }} />}>
-          <BlogCard
-            post={post}
-            onImageError={handleImageError}
-            style={{ margin: '1rem' }}
-          />
-        </Suspense>
-      </div>
-    );
-  }, [currentPosts]);
-
-  // Manejadores de eventos
-  const handleCategoryChange = useCallback((e) => {
-    setSelectedCategory(e.target.value);
-    setCurrentPage(1);
-  }, []);
-
-  const handleSearchChange = useCallback((e) => {
-    const { value } = e.target;
-    // Debounce la búsqueda para evitar demasiadas actualizaciones
-    const timeoutId = setTimeout(() => {
-      setSearchQuery(value);
-      setCurrentPage(1);
-    }, 300);
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  const toggleTag = useCallback((tag) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-    setCurrentPage(1);
-  }, []);
-
-  const handleImageError = useCallback((e) => {
-    e.target.src = '/images/placeholder.jpg';
-  }, []);
+  }, [searchQuery]);
 
   return (
     <Container>
       <Content>
         <Header>
           <Title
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION_DURATION }}
           >
             Blog
           </Title>
           <Description
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: ANIMATION_DURATION, delay: ANIMATION_DELAY }}
           >
-            Descubre las últimas tendencias y novedades en tecnología y desarrollo de software
+            Últimas noticias y artículos sobre tecnología, desarrollo y tendencias
           </Description>
         </Header>
 
@@ -256,73 +179,35 @@ const Blog = () => {
           <SearchInput
             type="text"
             placeholder="Buscar artículos..."
-            onChange={handleSearchChange}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </SearchContainer>
 
-        <FiltersContainer>
-          <FilterSelect
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          >
-            <option value="all">Todas las categorías</option>
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </FilterSelect>
-        </FiltersContainer>
-
-        <TagsContainer>
-          {tags.map(tag => (
-            <Tag
-              key={tag}
-              active={selectedTags.includes(tag)}
-              onClick={() => toggleTag(tag)}
-            >
-              {tag}
-            </Tag>
-          ))}
-        </TagsContainer>
-
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isLoading ? (
             <LoadingSpinner
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, rotate: 360 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, rotate: { duration: 1, repeat: Infinity } }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity }}
             />
           ) : (
             <BlogGrid>
-              <FixedSizeGrid
-                columnCount={GRID_COLUMN_COUNT}
-                columnWidth={300}
-                height={Math.ceil(currentPosts.length / GRID_COLUMN_COUNT) * CARD_HEIGHT}
-                rowCount={Math.ceil(currentPosts.length / GRID_COLUMN_COUNT)}
-                rowHeight={CARD_HEIGHT}
-                width={1200}
-              >
-                {GridCell}
-              </FixedSizeGrid>
+              {filteredPosts.map((post) => (
+                <Suspense
+                  key={post.id}
+                  fallback={
+                    <LoadingSpinner
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    />
+                  }
+                >
+                  <BlogCard post={post} />
+                </Suspense>
+              ))}
             </BlogGrid>
           )}
         </AnimatePresence>
-
-        {filteredPosts.length > POSTS_PER_PAGE && (
-          <Pagination>
-            {Array.from({ length: Math.ceil(filteredPosts.length / POSTS_PER_PAGE) }).map((_, index) => (
-              <PageButton
-                key={index + 1}
-                active={currentPage === index + 1}
-                onClick={() => setCurrentPage(index + 1)}
-              >
-                {index + 1}
-              </PageButton>
-            ))}
-          </Pagination>
-        )}
       </Content>
     </Container>
   );

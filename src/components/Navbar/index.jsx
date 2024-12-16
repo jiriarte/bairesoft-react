@@ -6,7 +6,7 @@ import Logo from '../Logo';
 
 const Nav = styled(motion.nav)`
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 1rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -14,6 +14,10 @@ const Nav = styled(motion.nav)`
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding: 0.75rem 1rem;
+  }
 `;
 
 const NavContainer = styled.div`
@@ -60,6 +64,15 @@ const NavLink = styled(Link)`
       width: 100%;
     }
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    
+    &:after {
+      display: none;
+    }
+  }
 `;
 
 const ContactButton = styled(Link)`
@@ -103,9 +116,12 @@ const MenuButton = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   z-index: 1001;
+  padding: 0.5rem;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -117,14 +133,28 @@ const MobileMenu = styled(motion.div)`
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.95);
-  padding: 6rem 2rem;
-  z-index: 1000;
+  backdrop-filter: blur(10px);
+  padding: 5rem 2rem 2rem;
+  z-index: 999;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
+  }
+`;
+
+const MobileNavLink = styled(NavLink)`
+  font-size: 1.25rem;
+  padding: 0.75rem;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 `;
 
@@ -151,6 +181,17 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <Nav
       initial={{ opacity: 0, y: -20 }}
@@ -159,7 +200,7 @@ const Navbar = () => {
       isScrolled={isScrolled}
     >
       <NavContainer>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/" style={{ textDecoration: 'none' }} onClick={() => setIsMobileMenuOpen(false)}>
           <Logo />
         </Link>
         <NavLinks>
@@ -167,21 +208,30 @@ const Navbar = () => {
             <NavLink key={index} to={item.path}>{item.label}</NavLink>
           ))}
         </NavLinks>
-        <MenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          ☰
+        <MenuButton 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+        >
+          {isMobileMenuOpen ? '✕' : '☰'}
         </MenuButton>
       </NavContainer>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
           <MobileMenu
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
           >
             {menuItems.map((item, index) => (
-              <NavLink key={index} to={item.path} onClick={() => setIsMobileMenuOpen(false)}>{item.label}</NavLink>
+              <MobileNavLink 
+                key={index} 
+                to={item.path} 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.label}
+              </MobileNavLink>
             ))}
           </MobileMenu>
         )}
