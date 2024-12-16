@@ -1,5 +1,5 @@
 export const emailjsConfig = {
-  serviceId: 'YOUR_SERVICE_ID',
-  templateId: 'YOUR_TEMPLATE_ID',
-  publicKey: 'YOUR_PUBLIC_KEY'
+  serviceId: 'service_bairesoft',
+  templateId: 'template_contact',
+  publicKey: 'H1RH-NPfwTwjy_o9G'
 };
