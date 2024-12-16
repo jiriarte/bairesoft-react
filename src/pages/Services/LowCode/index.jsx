@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import ContactForm from '../../../components/ContactForm';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -175,6 +176,17 @@ const StatLabel = styled.div`
   color: ${props => props.theme.colors.textLight};
 `;
 
+const ContactSection = styled.div`
+  margin-top: 4rem;
+  text-align: center;
+`;
+
+const ContactTitle = styled(motion.h2)`
+  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: 2rem;
+`;
+
 const LowCode = () => {
   return (
     <Container>
@@ -314,6 +326,17 @@ const LowCode = () => {
             </StatCard>
           </StatsGrid>
         </StatsSection>
+
+        <ContactSection>
+          <ContactTitle
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            ¿Listo para acelerar tu desarrollo con Low-Code?
+          </ContactTitle>
+          <ContactForm />
+        </ContactSection>
       </Content>
     </Container>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ServicesContainer = styled.div`
   min-height: 100vh;
@@ -136,16 +136,15 @@ const CTASection = styled.div`
 const CTAButton = styled(motion.button)`
   padding: 1rem 2rem;
   font-size: 1.1rem;
-  font-weight: 600;
+  background: ${props => props.theme.colors.primary};
   color: white;
-  background: ${props => props.theme.colors.gradient};
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: background 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
+    background: ${props => props.theme.colors.primaryDark};
   }
 `;
 
@@ -249,6 +248,8 @@ const Services = () => {
     }
   ];
 
+  const navigate = useNavigate();
+
   return (
     <ServicesContainer>
       <ContentWrapper>
@@ -308,7 +309,7 @@ const Services = () => {
             tus objetivos tecnológicos.
           </motion.p>
           <CTAButton
-            as={motion.button}
+            onClick={() => navigate('/contact')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}

@@ -8,8 +8,8 @@ const HomeContainer = styled.div`
 `;
 
 const HeroSection = styled.section`
-  padding-top: calc(80px + 4rem); 
-  padding-bottom: 4rem;
+  padding-top: calc(80px + 2rem); 
+  padding-bottom: 2rem;
   padding-left: 2rem;
   padding-right: 2rem;
   display: flex;
@@ -20,50 +20,50 @@ const HeroSection = styled.section`
   background: ${props => props.theme.colors.background};
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding-top: calc(70px + 3rem);
-    padding-bottom: 3rem;
+    padding-top: calc(70px + 1.5rem);
+    padding-bottom: 1.5rem;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-top: calc(60px + 2rem);
-    padding-bottom: 2rem;
+    padding-top: calc(60px + 1rem);
+    padding-bottom: 1rem;
   }
 `;
 
 const Title = styled(motion.h1)`
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
   background: ${props => props.theme.colors.gradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   max-width: 900px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 3.2rem;
-    margin-bottom: 1.2rem;
+    font-size: 2.8rem;
+    margin-bottom: 0.8rem;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    margin-bottom: 0.6rem;
   }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: ${props => props.theme.colors.textLight};
   max-width: 800px;
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 1.2rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
   }
 `;
 

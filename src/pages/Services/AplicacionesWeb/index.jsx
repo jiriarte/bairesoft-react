@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import ContactForm from '../../../components/ContactForm';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -142,6 +143,17 @@ const TechnologyCard = styled(motion.div)`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
+const ContactSection = styled.div`
+  margin-top: 4rem;
+  text-align: center;
+`;
+
+const ContactTitle = styled(motion.h2)`
+  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: 2rem;
+`;
+
 const AplicacionesWeb = () => {
   return (
     <Container>
@@ -257,6 +269,17 @@ const AplicacionesWeb = () => {
             </TechnologyCard>
           </TechnologiesGrid>
         </TechnologiesSection>
+
+        <ContactSection>
+          <ContactTitle
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            ¿Listo para desarrollar tu aplicación web?
+          </ContactTitle>
+          <ContactForm />
+        </ContactSection>
       </Content>
     </Container>
   );
