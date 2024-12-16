@@ -3,7 +3,7 @@ services:
     name: bairesoft-react
     env: static
     buildCommand: npm install && npm run build
-    staticPublishPath: ./build
+    staticPublishPath: ./dist
     pullRequestPreviewsEnabled: true
     envVars:
       - key: NODE_VERSION
