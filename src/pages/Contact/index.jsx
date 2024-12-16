@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import { emailjsConfig } from '../../config/emailjs';
+import { emailjsConfig } from '../../config/emailjs.js';
 
 const ContactContainer = styled.div`
   min-height: 100vh;
