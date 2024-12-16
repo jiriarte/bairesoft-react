@@ -224,7 +224,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <h3>100+</h3>
+            <h3>50+</h3>
             <p>Proyectos Completados</p>
           </StatItem>
           <StatItem
