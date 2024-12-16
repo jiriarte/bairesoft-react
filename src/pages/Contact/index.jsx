@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
+import { emailjsConfig } from '../../config/emailjs';
 
 const ContactContainer = styled.div`
   min-height: 100vh;
@@ -141,7 +143,17 @@ const SubmitButton = styled(motion.button)`
   }
 `;
 
+const StatusMessage = styled.div`
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: ${props => props.type === 'success' ? '#C6F6D5' : '#F8D7DA'};
+  color: ${props => props.type === 'success' ? '#34C759' : '#FFC080'};
+  font-size: 1rem;
+`;
+
 const Contact = () => {
+  const form = useRef();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -149,6 +161,11 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState({ type: '', message: '' });
+
+  useEffect(() => {
+    emailjs.init(emailjsConfig.publicKey);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -161,22 +178,34 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Aquí iría la lógica para enviar el formulario
-    // Por ejemplo, usando un servicio de email como EmailJS o una API propia
+    setStatus({ type: '', message: '' });
 
     try {
-      // Simular envío
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      alert('Mensaje enviado con éxito');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
+      const result = await emailjs.sendForm(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        form.current,
+        emailjsConfig.publicKey
+      );
+
+      if (result.text === 'OK') {
+        setStatus({
+          type: 'success',
+          message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
+        });
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }
     } catch (error) {
-      alert('Error al enviar el mensaje. Por favor, inténtelo de nuevo.');
+      setStatus({
+        type: 'error',
+        message: 'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.'
+      });
+      console.error('Error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -260,11 +289,18 @@ const Contact = () => {
         </ContactInfo>
 
         <ContactForm
+          ref={form}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           onSubmit={handleSubmit}
         >
+          {status.message && (
+            <StatusMessage type={status.type}>
+              {status.message}
+            </StatusMessage>
+          )}
+          
           <FormGroup>
             <label htmlFor="name">Nombre</label>
             <input
