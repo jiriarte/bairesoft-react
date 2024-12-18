@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && npx vite build && cp serve.json dist/ && echo '{ \"rewrites\": [{ \"source\": \"/**\", \"destination\": \"/index.html\" }] }' > dist/rewrite.json",
+    "build": "vite build",
     "preview": "vite preview",
     "start": "vite preview --host --port $PORT",
     "clean": "rm -rf dist",
