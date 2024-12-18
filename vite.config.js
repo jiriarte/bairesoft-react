@@ -1,51 +1,41 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { splitVendorChunkPlugin } from 'vite'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    splitVendorChunkPlugin()
-  ],
-  build: {
-    outDir: 'dist',
-    sourcemap: false, // Deshabilitamos sourcemaps en producción para mejor rendimiento
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
-      },
-      mangle: true,
-    },
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['styled-components', 'framer-motion'],
-        },
-      },
-    },
-  },
+  plugins: [react()],
+  base: '/',
   server: {
     port: 3000,
     strictPort: true,
-    host: true,
+    host: true
   },
   preview: {
     port: 3000,
     strictPort: true,
-    host: true,
+    host: true
   },
-  base: '/',
-  resolve: {
-    alias: {
-      '@': '/src',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    sourcemap: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@emotion/react', '@emotion/styled', 'framer-motion'],
+        },
+      },
     },
   },
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'styled-components', 'framer-motion'],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 })
