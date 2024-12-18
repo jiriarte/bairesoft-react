@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion';
+import es from 'date-fns/locale/es';
+
+// Registrar el locale español
+registerLocale('es', es);
 
 const FormContainer = styled(motion.div)`
   max-width: 600px;
@@ -53,6 +59,18 @@ const TextArea = styled.textarea`
   }
 `;
 
+const StyledDatePicker = styled(DatePicker)`
+  padding: 0.75rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
 const Button = styled.button`
   padding: 1rem 2rem;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -86,39 +104,78 @@ const ErrorMessage = styled(motion.div)`
   margin-top: 1rem;
 `;
 
-const ConsultaForm = ({ title = "Contáctanos" }) => {
+const ScheduleContactForm = ({ title = "Agenda una consulta" }) => {
+  const formRef = React.useRef();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   });
+  const [scheduledDate, setScheduledDate] = useState(null);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    try {
+      console.log('Inicializando EmailJS con:', {
+        publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+      });
+      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    } catch (error) {
+      console.error('Error al inicializar EmailJS:', error);
+    }
   }, []);
+
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+
+  const handleDateChange = (date) => {
+    if (date) {
+      const newDate = new Date(date);
+      setScheduledDate(newDate);
+    } else {
+      setScheduledDate(null);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
     setError('');
 
+    if (!scheduledDate) {
+      setError('Por favor selecciona una fecha y hora para la consulta');
+      setStatus('error');
+      return;
+    }
+
     try {
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone,
-        message: formData.message
-      };
+      // Actualizar el campo oculto de fecha antes de enviar
+      const dateInput = formRef.current.querySelector('input[name="scheduled_date"]');
+      if (dateInput) {
+        dateInput.value = scheduledDate.toLocaleString('es-ES', {
+          dateStyle: 'full',
+          timeStyle: 'short'
+        });
+      }
 
-      console.log('Enviando email con parámetros:', templateParams);
+      console.log('Enviando formulario con datos:', {
+        formData,
+        scheduledDate: dateInput?.value,
+        serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+      });
 
-      const result = await emailjs.send(
+      const result = await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams
+        formRef.current
       );
 
       console.log('Email enviado:', result);
@@ -131,6 +188,7 @@ const ConsultaForm = ({ title = "Contáctanos" }) => {
           phone: '',
           message: ''
         });
+        setScheduledDate(null);
       } else {
         throw new Error('Error al enviar el formulario: ' + result.text);
       }
@@ -148,7 +206,7 @@ const ConsultaForm = ({ title = "Contáctanos" }) => {
       transition={{ duration: 0.5 }}
     >
       <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>{title}</h2>
-      <Form onSubmit={handleSubmit}>
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="from_name">Nombre</Label>
           <Input
@@ -182,6 +240,29 @@ const ConsultaForm = ({ title = "Contáctanos" }) => {
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             required
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label htmlFor="scheduled_date">Fecha y Hora de la Consulta</Label>
+          <StyledDatePicker
+            selected={scheduledDate}
+            onChange={handleDateChange}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            timeCaption="Hora"
+            dateFormat="dd/MM/yyyy HH:mm"
+            minDate={new Date()}
+            filterTime={filterPassedTime}
+            placeholderText="Selecciona fecha y hora"
+            locale="es"
+            required
+          />
+          <Input
+            type="hidden"
+            name="scheduled_date"
+            id="scheduled_date"
           />
         </FormGroup>
 
@@ -224,4 +305,4 @@ const ConsultaForm = ({ title = "Contáctanos" }) => {
   );
 };
 
-export default ConsultaForm;
+export default ScheduleContactForm;

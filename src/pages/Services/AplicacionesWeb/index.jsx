@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ContactForm from '../../../components/ContactForm';
+import ScheduleContactForm from '../../../components/ScheduleContactForm';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -154,6 +155,11 @@ const ContactTitle = styled(motion.h2)`
   margin-bottom: 2rem;
 `;
 
+const Section = styled.div`
+  text-align: center;
+  margin: 4rem 0;
+`;
+
 const AplicacionesWeb = () => {
   return (
     <Container>
@@ -269,6 +275,18 @@ const AplicacionesWeb = () => {
             </TechnologyCard>
           </TechnologiesGrid>
         </TechnologiesSection>
+
+        <Section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Title>Agenda una Consulta Gratuita</Title>
+          <Description>
+            ¿Necesitas una aplicación web para tu negocio? Agenda una consulta gratuita con nuestros expertos para discutir tu proyecto.
+          </Description>
+          <ScheduleContactForm title="Agenda tu consulta gratuita" />
+        </Section>
 
         <ContactSection>
           <ContactTitle

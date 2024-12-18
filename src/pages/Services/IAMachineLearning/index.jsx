@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ContactForm from '../../../components/ContactForm';
+import ScheduleContactForm from '../../../components/ScheduleContactForm';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -102,6 +103,11 @@ const ContactTitle = styled(motion.h2)`
   font-size: 2rem;
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 2rem;
+`;
+
+const Section = styled(motion.div)`
+  margin-top: 4rem;
+  text-align: center;
 `;
 
 const IAMachineLearning = () => {
@@ -239,6 +245,18 @@ const IAMachineLearning = () => {
           </ContactTitle>
           <ContactForm />
         </ContactSection>
+
+        <Section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Title>Agenda una Consulta Gratuita</Title>
+          <Description>
+            ¿Quieres implementar soluciones de IA en tu negocio? Agenda una consulta gratuita con nuestros expertos.
+          </Description>
+          <ScheduleContactForm title="Agenda tu consulta gratuita" />
+        </Section>
       </Content>
     </Container>
   );
