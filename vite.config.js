@@ -19,47 +19,33 @@ export default defineConfig({
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
       },
       mangle: true,
-      format: {
-        comments: false
-      }
     },
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['styled-components', 'framer-motion'],
-          'vendor-utils': ['date-fns', 'react-intersection-observer'],
-          'vendor-icons': ['react-icons', 'lucide-react', '@fortawesome/fontawesome-free']
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['styled-components', 'framer-motion'],
         },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
-      }
+      },
     },
-    target: 'es2015',
-    cssCodeSplit: true,
-    assetsInlineLimit: 4096, // 4kb
-    chunkSizeWarningLimit: 500
   },
   server: {
     port: 3000,
+    strictPort: true,
     host: true,
-    cors: true,
-    compression: true
   },
   preview: {
     port: 3000,
+    strictPort: true,
     host: true,
-    cors: true,
-    compression: true
+  },
+  base: '/',
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
   },
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'styled-components',
-      'framer-motion'
-    ]
-  }
+    include: ['react', 'react-dom', 'react-router-dom', 'styled-components', 'framer-motion'],
+  },
 })
