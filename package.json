@@ -9,10 +9,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp serve.json dist/ && echo '{ \"rewrites\": [{ \"source\": \"/**\", \"destination\": \"/index.html\" }] }' > dist/rewrite.json",
+    "build": "rm -rf dist && vite build && cp serve.json dist/ && echo '{ \"rewrites\": [{ \"source\": \"/**\", \"destination\": \"/index.html\" }] }' > dist/rewrite.json",
     "preview": "vite preview",
     "start": "vite preview --host --port $PORT",
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "prebuild": "npm run clean",
     "analyze": "vite-bundle-analyzer"
   },
