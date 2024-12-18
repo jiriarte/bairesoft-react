@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && echo '{ \"rewrites\": [{ \"source\": \"/**\", \"destination\": \"/index.html\" }] }' > dist/rewrite.json",
+    "build": "vite build && cp serve.json dist/ && echo '{ \"rewrites\": [{ \"source\": \"/**\", \"destination\": \"/index.html\" }] }' > dist/rewrite.json",
     "preview": "vite preview",
     "start": "vite preview --host --port $PORT",
     "clean": "rimraf dist",
