@@ -185,14 +185,20 @@ const AIChat = () => {
       // Obtener respuesta de Claude
       const response = await sendMessageToClaude(input, conversationHistory);
       
-      const botResponse = {
-        text: response,
-        isUser: false
-      };
-      
-      // Agregar la respuesta al historial
-      setConversationHistory(prev => [...prev, { role: "assistant", content: response }]);
-      setMessages(prev => [...prev, botResponse]);
+      if (response.error) {
+        const errorMessage = {
+          text: response.message,
+          isUser: false
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      } else {
+        const botResponse = {
+          text: response.message,
+          isUser: false
+        };
+        setConversationHistory(prev => [...prev, { role: "assistant", content: response.message }]);
+        setMessages(prev => [...prev, botResponse]);
+      }
     } catch (error) {
       console.error('Error al procesar el mensaje:', error);
       const errorMessage = {
@@ -207,19 +213,29 @@ const AIChat = () => {
 
   return (
     <ChatContainer>
+      <ChatButton
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <MessageCircle size={24} />
+      </ChatButton>
+
       <AnimatePresence>
         {isOpen && (
           <ChatWindow
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
             <ChatHeader>
-              <h3>Asistente Virtual</h3>
+              <h3>Asistente Bairesoft</h3>
               <button onClick={() => setIsOpen(false)}>
                 <X size={20} />
               </button>
             </ChatHeader>
+
             <ChatMessages>
               {messages.map((message, index) => (
                 <Message key={index} $isUser={message.isUser}>
@@ -228,6 +244,7 @@ const AIChat = () => {
               ))}
               <div ref={messagesEndRef} />
             </ChatMessages>
+
             <InputContainer onSubmit={handleSubmit}>
               <Input
                 type="text"
@@ -236,20 +253,13 @@ const AIChat = () => {
                 placeholder="Escribe tu mensaje..."
                 disabled={isLoading}
               />
-              <SendButton type="submit" disabled={!input.trim() || isLoading}>
+              <SendButton type="submit" disabled={isLoading || !input.trim()}>
                 {isLoading ? <Loader size={20} /> : <Send size={20} />}
               </SendButton>
             </InputContainer>
           </ChatWindow>
         )}
       </AnimatePresence>
-      <ChatButton
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <MessageCircle size={24} />
-      </ChatButton>
     </ChatContainer>
   );
 };
