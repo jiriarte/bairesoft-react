@@ -4,41 +4,46 @@ import styled from 'styled-components';
 const Container = styled.div`
   max-width: 800px;
   margin: 2rem auto;
-  padding: 2rem;
+  padding: 1.5rem;
   background: ${props => props.theme.colors.card};
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
   color: ${props => props.theme.colors.text};
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
 `;
 
 const Section = styled.section`
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 `;
 
 const SectionTitle = styled.h2`
   color: ${props => props.theme.colors.text};
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
 `;
 
 const Text = styled.p`
   color: ${props => props.theme.colors.textLight};
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
 `;
 
 const List = styled.ul`
   color: ${props => props.theme.colors.textLight};
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  padding-left: 2rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  font-size: 0.875rem;
 `;
 
 const ListItem = styled.li`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 `;
 
 const PoliticaCookies = () => {

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 import { Code, Brain, Cog, Cloud, LineChart, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ServicesSection = styled.section`
   padding: 6rem 2rem;
@@ -104,6 +105,23 @@ const ServiceDescription = styled.p`
   transition: ${props => props.theme.transitions.base};
 `;
 
+const ServiceButton = styled(Link)`
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: ${props => props.theme.colors.primary};
+  color: white;
+  text-decoration: none;
+  border-radius: ${props => props.theme.radii.md};
+  font-weight: ${props => props.theme.fontWeights.medium};
+  transition: ${props => props.theme.transitions.base};
+
+  &:hover {
+    background: ${props => props.theme.colors.primaryDark};
+    transform: translateY(-2px);
+  }
+`;
+
 const services = [
   {
     icon: <Code size={24} />,
@@ -195,6 +213,7 @@ const Services = () => {
               <IconWrapper>{service.icon}</IconWrapper>
               <ServiceTitle>{service.title}</ServiceTitle>
               <ServiceDescription>{service.description}</ServiceDescription>
+              <ServiceButton to="/schedule">Contactar Ahora</ServiceButton>
             </ServiceCard>
           ))}
         </Grid>

@@ -28,7 +28,7 @@ import ERPIndustrial from './pages/Projects/erp-industrial';
 import SistemaDeReservas from './pages/Projects/sistema-de-reservas';
 import PlataformaEducativa from './pages/Projects/plataforma-educativa';
 import AIChat from './components/AIChat';
-import SchedulePage from './pages/Schedule';
+import Schedule from './pages/Schedule.jsx';
 
 function App() {
   return (
@@ -48,6 +48,9 @@ function App() {
               <Route path="/services/ia-machine-learning" element={<IAMachineLearning />} />
               <Route path="/services/consultoria-it" element={<ConsultoriaIT />} />
               <Route path="/custom-software" element={<CustomSoftware />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/e-commerce-platform" element={<EcommercePlatform />} />
               <Route path="/projects/app-de-gestion" element={<AppDeGestion />} />
@@ -55,19 +58,16 @@ function App() {
               <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
               <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
               <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/schedule" element={<SchedulePage />} />
               <Route path="/politica-cookies" element={<PoliticaCookies />} />
               <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
               <Route path="/terminos-servicio" element={<TerminosServicio />} />
+              <Route path="/schedule" element={<Schedule />} />
             </Routes>
-            <CookieConsent />
           </Layout>
+          <CookieConsent />
+          <AIChat />
         </ThemeProvider>
       </Router>
-      <AIChat />
     </>
   );
 }
