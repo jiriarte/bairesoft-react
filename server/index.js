@@ -21,6 +21,7 @@ const anthropicProxy = createProxyMiddleware({
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader('x-api-key', process.env.ANTHROPIC_API_KEY);
     proxyReq.setHeader('anthropic-version', '2023-06-01');
+    proxyReq.setHeader('anthropic-dangerous-direct-browser-access', 'true');
     if (req.body) {
       const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
