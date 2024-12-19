@@ -12,6 +12,7 @@ import Projects from './pages/Projects';
 import CustomSoftware from './pages/CustomSoftware';
 import PoliticaCookies from './pages/PoliticaCookies';
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
+import TerminosServicio from './pages/TerminosServicio';
 import CookieConsent from './components/CookieConsent';
 import DesarrolloWeb from './pages/Services/DesarrolloWeb';
 import AplicacionesWeb from './pages/Services/AplicacionesWeb';
@@ -27,6 +28,7 @@ import ERPIndustrial from './pages/Projects/erp-industrial';
 import SistemaDeReservas from './pages/Projects/sistema-de-reservas';
 import PlataformaEducativa from './pages/Projects/plataforma-educativa';
 import AIChat from './components/AIChat';
+import SchedulePage from './pages/Schedule';
 
 function App() {
   return (
@@ -56,8 +58,10 @@ function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/schedule" element={<SchedulePage />} />
               <Route path="/politica-cookies" element={<PoliticaCookies />} />
               <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+              <Route path="/terminos-servicio" element={<TerminosServicio />} />
             </Routes>
             <CookieConsent />
           </Layout>

@@ -188,8 +188,11 @@ const Footer = () => {
           <FooterLink to="/politica-privacidad" style={{ marginRight: '1.5rem' }}>
             Política de Privacidad
           </FooterLink>
-          <FooterLink to="/politica-cookies">
+          <FooterLink to="/politica-cookies" style={{ marginRight: '1.5rem' }}>
             Política de Cookies
+          </FooterLink>
+          <FooterLink to="/terminos-servicio">
+            Términos y Condiciones
           </FooterLink>
         </div>
       </BottomBar>
