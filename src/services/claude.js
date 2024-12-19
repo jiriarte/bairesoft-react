@@ -14,6 +14,8 @@ Si no estás seguro de algo, sugiere contactar directamente con el equipo de Bai
 
 export const sendMessageToClaude = async (userMessage, conversationHistory = []) => {
   try {
+    console.log('API Key:', ANTHROPIC_API_KEY ? 'Presente' : 'No encontrada');
+    
     // Preparar el historial de mensajes en el formato que Claude espera
     const messages = [
       {
@@ -27,6 +29,14 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
       }
     ];
 
+    const requestBody = {
+      model: 'claude-3-opus-20240229',
+      max_tokens: 1000,
+      messages: messages
+    };
+
+    console.log('Request body:', JSON.stringify(requestBody, null, 2));
+
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
@@ -34,21 +44,33 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
         'x-api-key': ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify({
-        model: 'claude-3-opus-20240229',
-        max_tokens: 1000,
-        messages: messages
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
-      throw new Error('Error en la API: ' + response.status);
+      const errorText = await response.text();
+      console.error('Error response:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText
+      });
+      throw new Error(`Error en la API: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('API Response:', JSON.stringify(data, null, 2));
+    
+    if (!data.content || !data.content[0] || !data.content[0].text) {
+      console.error('Respuesta inesperada:', data);
+      throw new Error('Formato de respuesta inválido');
+    }
+
     return data.content[0].text;
   } catch (error) {
-    console.error('Error al comunicarse con Claude:', error);
+    console.error('Error detallado al comunicarse con Claude:', {
+      message: error.message,
+      stack: error.stack
+    });
     throw error;
   }
 };
