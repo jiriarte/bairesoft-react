@@ -1,5 +1,7 @@
 const ANTHROPIC_API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY;
-const API_URL = 'https://api.anthropic.com/v1/messages';
+const API_URL = import.meta.env.DEV 
+  ? 'http://localhost:3001/api/claude'
+  : 'https://api.bairesoft.com/api/claude';
 
 const systemPrompt = `Eres un asistente virtual de Bairesoft, una empresa de desarrollo de software. 
 Tu objetivo es ayudar a los visitantes del sitio web respondiendo preguntas sobre:
@@ -40,9 +42,7 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(requestBody)
     });
