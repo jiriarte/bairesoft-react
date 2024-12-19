@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import { emailjsConfig } from '../../config/emailjs.js';
+import ConsentCheckboxes from '../ConsentCheckboxes';
 
 const FormContainer = styled.div`
   max-width: 600px;
@@ -102,6 +103,11 @@ const ContactForm = () => {
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [consent, setConsent] = useState({
+    privacy: false,
+    marketing: false
+  });
+  const [showError, setShowError] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -110,8 +116,18 @@ const ContactForm = () => {
     });
   };
 
+  const handleConsentChange = (newConsent) => {
+    setConsent(newConsent);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowError(true);
+
+    if (!consent.privacy) {
+      return;
+    }
+
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
@@ -120,7 +136,9 @@ const ContactForm = () => {
         from_name: formData.name,
         from_email: formData.email,
         from_phone: formData.phone,
-        message: formData.message
+        message: formData.message,
+        privacyConsent: consent.privacy,
+        marketingConsent: consent.marketing
       };
 
       await emailjs.send(
@@ -135,6 +153,8 @@ const ContactForm = () => {
         message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
       });
       setFormData({ name: '', email: '', phone: '', message: '' });
+      setConsent({ privacy: false, marketing: false });
+      setShowError(false);
     } catch (error) {
       setStatus({
         type: 'error',
@@ -178,6 +198,10 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           required
+        />
+        <ConsentCheckboxes 
+          onConsentChange={handleConsentChange}
+          showError={showError}
         />
         <Button
           type="submit"
