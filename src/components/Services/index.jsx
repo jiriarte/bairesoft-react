@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 import { Code, Brain, Cog, Cloud, LineChart, Smartphone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ServicesSection = styled.section`
   padding: 6rem 2rem;
@@ -105,22 +105,23 @@ const ServiceDescription = styled.p`
   transition: ${props => props.theme.transitions.base};
 `;
 
-const ServiceButton = styled.button`
+const ServiceButton = styled(Link)`
   display: inline-block;
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   background: ${props => props.theme.colors.primary};
   color: white;
   text-decoration: none;
-  border: none;
-  cursor: pointer;
   border-radius: ${props => props.theme.radii.md};
   font-weight: ${props => props.theme.fontWeights.medium};
   transition: ${props => props.theme.transitions.base};
+  text-align: center;
 
   &:hover {
     background: ${props => props.theme.colors.primaryDark};
     transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
   }
 `;
 
@@ -184,11 +185,6 @@ const cardVariants = {
 const Services = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const navigate = useNavigate();
-
-  const handleScheduleClick = () => {
-    navigate('/schedule');
-  };
 
   return (
     <ServicesSection id="servicios" ref={ref}>
@@ -217,7 +213,7 @@ const Services = () => {
               <IconWrapper>{service.icon}</IconWrapper>
               <ServiceTitle>{service.title}</ServiceTitle>
               <ServiceDescription>{service.description}</ServiceDescription>
-              <ServiceButton onClick={handleScheduleClick}>
+              <ServiceButton to="/schedule">
                 Contactar Ahora
               </ServiceButton>
             </ServiceCard>
