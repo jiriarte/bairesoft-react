@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Loader } from 'lucide-react';
+import { sendMessageToClaude } from '../../services/claude';
 
 const ChatContainer = styled(motion.div)`
   position: fixed;
@@ -156,6 +157,7 @@ const AIChat = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [conversationHistory, setConversationHistory] = useState([]);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -176,20 +178,25 @@ const AIChat = () => {
     setIsLoading(true);
 
     try {
-      // TODO: Integrar con el backend para procesar el mensaje
-      // Por ahora, simulamos una respuesta después de 1 segundo
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Agregar el mensaje del usuario al historial de la conversación
+      const newHistory = [...conversationHistory, { role: "user", content: input }];
+      setConversationHistory(newHistory);
+
+      // Obtener respuesta de Claude
+      const response = await sendMessageToClaude(input, conversationHistory);
       
       const botResponse = {
-        text: "Gracias por tu mensaje. En este momento estamos implementando el asistente virtual. Por favor, utiliza nuestro formulario de contacto para enviarnos tu consulta.",
+        text: response,
         isUser: false
       };
       
+      // Agregar la respuesta al historial
+      setConversationHistory(prev => [...prev, { role: "assistant", content: response }]);
       setMessages(prev => [...prev, botResponse]);
     } catch (error) {
       console.error('Error al procesar el mensaje:', error);
       const errorMessage = {
-        text: "Lo siento, ha ocurrido un error. Por favor, intenta nuevamente más tarde.",
+        text: "Lo siento, ha ocurrido un error al procesar tu mensaje. Por favor, intenta nuevamente más tarde o contacta directamente con nuestro equipo.",
         isUser: false
       };
       setMessages(prev => [...prev, errorMessage]);
