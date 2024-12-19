@@ -147,7 +147,7 @@ const SendButton = styled.button`
 
 const initialMessages = [
   {
-    text: "¡Hola! Soy el asistente virtual de Bairesoft. ¿En qué puedo ayudarte?",
+    text: "¡Hola! Soy el asistente virtual de Bairesoft. Puedo ayudarte con información sobre:\n\n• Desarrollo de software a medida\n• Aplicaciones web y móviles\n• Soluciones Low-Code\n• IA y Machine Learning\n• Consultoría IT\n\n¿En qué puedo ayudarte hoy?",
     isUser: false
   }
 ];
