@@ -107,7 +107,7 @@ const ServiceDescription = styled.p`
 
 const ServiceButton = styled(Link)`
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   background: ${props => props.theme.colors.primary};
   color: white;
@@ -206,9 +206,6 @@ const Services = () => {
             <ServiceCard
               key={index}
               variants={cardVariants}
-              IconWrapper={IconWrapper}
-              ServiceTitle={ServiceTitle}
-              ServiceDescription={ServiceDescription}
             >
               <IconWrapper>{service.icon}</IconWrapper>
               <ServiceTitle>{service.title}</ServiceTitle>
