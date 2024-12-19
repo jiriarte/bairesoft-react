@@ -42,7 +42,7 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
     });
 
     if (!response.ok) {
-      throw new Error(\`Error en la API: \${response.status}\`);
+      throw new Error('Error en la API: ' + response.status);
     }
 
     const data = await response.json();
