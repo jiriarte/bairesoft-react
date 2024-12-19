@@ -58,9 +58,12 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
     }
 
     const messages = [
-      { role: 'system', content: systemPrompt },
-      ...conversationHistory,
-      { role: 'user', content: userMessage }
+      { role: "system", content: systemPrompt },
+      ...conversationHistory.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      })),
+      { role: "user", content: userMessage }
     ];
 
     const response = await fetch(API_URL, {
@@ -82,6 +85,11 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
     }
 
     const data = await response.json();
+    
+    if (!data || !data.content) {
+      throw new Error('Respuesta inválida del servidor');
+    }
+
     return {
       error: false,
       message: data.content
@@ -91,7 +99,7 @@ export const sendMessageToClaude = async (userMessage, conversationHistory = [])
     console.error('Error al enviar mensaje a Claude:', error);
     return {
       error: true,
-      message: 'Lo siento, ha ocurrido un error al procesar tu mensaje. Por favor, intenta de nuevo.'
+      message: 'Lo siento, ha ocurrido un error al procesar tu mensaje. Por favor, intenta nuevamente más tarde o contacta directamente con nuestro equipo.'
     };
   }
 };

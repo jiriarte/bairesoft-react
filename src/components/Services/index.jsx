@@ -128,33 +128,39 @@ const ServiceButton = styled(Link)`
 const services = [
   {
     icon: <Code size={24} />,
-    title: "Desarrollo Low Code",
-    description: "Creamos soluciones empresariales eficientes utilizando plataformas Low Code para acelerar el desarrollo y reducir costos."
-  },
-  {
-    icon: <Brain size={24} />,
-    title: "Inteligencia Artificial",
-    description: "Implementamos soluciones de IA para automatizar procesos y obtener insights valiosos de tus datos empresariales."
-  },
-  {
-    icon: <Cloud size={24} />,
-    title: "Cloud Computing",
-    description: "Diseñamos e implementamos arquitecturas cloud escalables y seguras para tu negocio."
-  },
-  {
-    icon: <Cog size={24} />,
-    title: "Automatización",
-    description: "Optimizamos tus procesos empresariales mediante la automatización inteligente de tareas repetitivas."
+    title: "Desarrollo Web",
+    description: "Creamos sitios web modernos y responsivos que destacan tu marca y mejoran la experiencia del usuario.",
+    link: "/services/desarrollo-web"
   },
   {
     icon: <Smartphone size={24} />,
-    title: "Desarrollo Móvil",
-    description: "Desarrollamos aplicaciones móviles nativas y multiplataforma con las últimas tecnologías."
+    title: "Apps Móviles",
+    description: "Desarrollamos aplicaciones móviles nativas y multiplataforma con las últimas tecnologías.",
+    link: "/services/apps-moviles"
+  },
+  {
+    icon: <Brain size={24} />,
+    title: "IA y Machine Learning",
+    description: "Implementamos soluciones inteligentes que automatizan procesos y mejoran la toma de decisiones.",
+    link: "/services/ia-machine-learning"
+  },
+  {
+    icon: <Cloud size={24} />,
+    title: "Cloud Solutions",
+    description: "Optimizamos tu infraestructura con soluciones cloud escalables y seguras.",
+    link: "/services/cloud-solutions"
+  },
+  {
+    icon: <Cog size={24} />,
+    title: "Low-Code",
+    description: "Aceleramos el desarrollo con plataformas low-code manteniendo la calidad y flexibilidad.",
+    link: "/services/low-code"
   },
   {
     icon: <LineChart size={24} />,
-    title: "Analítica de Datos",
-    description: "Transformamos tus datos en información accionable para la toma de decisiones estratégicas."
+    title: "Consultoría IT",
+    description: "Asesoramiento experto para optimizar tus procesos tecnológicos y potenciar tu negocio.",
+    link: "/services/consultoria-it"
   }
 ];
 
@@ -213,8 +219,8 @@ const Services = () => {
               <IconWrapper>{service.icon}</IconWrapper>
               <ServiceTitle>{service.title}</ServiceTitle>
               <ServiceDescription>{service.description}</ServiceDescription>
-              <ServiceButton to="/schedule">
-                Contactar Ahora
+              <ServiceButton to={service.link}>
+                Ver más
               </ServiceButton>
             </ServiceCard>
           ))}
