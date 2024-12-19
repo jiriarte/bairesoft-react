@@ -49,61 +49,49 @@ Recuerda: tu objetivo es ayudar a los visitantes a entender cómo Bairesoft pued
 
 export const sendMessageToClaude = async (userMessage, conversationHistory = []) => {
   try {
-    console.log('API Key:', ANTHROPIC_API_KEY ? 'Presente' : 'No encontrada');
-    
-    // Preparar el historial de mensajes en el formato que Claude espera
+    if (!ANTHROPIC_API_KEY) {
+      console.error('ANTHROPIC_API_KEY no está configurado');
+      return {
+        error: true,
+        message: 'Lo siento, el servicio de chat no está disponible en este momento. Por favor, intenta más tarde.'
+      };
+    }
+
     const messages = [
-      {
-        role: "assistant",
-        content: systemPrompt
-      },
+      { role: 'system', content: systemPrompt },
       ...conversationHistory,
-      {
-        role: "user",
-        content: userMessage
-      }
+      { role: 'user', content: userMessage }
     ];
-
-    const requestBody = {
-      model: 'claude-3-opus-20240229',
-      max_tokens: 1000,
-      messages: messages
-    };
-
-    console.log('Request body:', JSON.stringify(requestBody, null, 2));
 
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-API-Key': ANTHROPIC_API_KEY
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({
+        messages,
+        max_tokens: 1000,
+        temperature: 0.7,
+        model: 'claude-3-opus-20240229'
+      })
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response:', {
-        status: response.status,
-        statusText: response.statusText,
-        body: errorText
-      });
-      throw new Error(`Error en la API: ${response.status} - ${errorText}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('API Response:', JSON.stringify(data, null, 2));
-    
-    if (!data.content || !data.content[0] || !data.content[0].text) {
-      console.error('Respuesta inesperada:', data);
-      throw new Error('Formato de respuesta inválido');
-    }
+    return {
+      error: false,
+      message: data.content
+    };
 
-    return data.content[0].text;
   } catch (error) {
-    console.error('Error detallado al comunicarse con Claude:', {
-      message: error.message,
-      stack: error.stack
-    });
-    throw error;
+    console.error('Error al enviar mensaje a Claude:', error);
+    return {
+      error: true,
+      message: 'Lo siento, ha ocurrido un error al procesar tu mensaje. Por favor, intenta de nuevo.'
+    };
   }
 };

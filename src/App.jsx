@@ -41,31 +41,31 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/custom-software" element={<CustomSoftware />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/politica-cookies" element={<PoliticaCookies />} />
+              <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+              <Route path="/terminos-servicio" element={<TerminosServicio />} />
               <Route path="/services/desarrollo-web" element={<DesarrolloWeb />} />
               <Route path="/services/aplicaciones-web" element={<AplicacionesWeb />} />
               <Route path="/services/apps-moviles" element={<AppMoviles />} />
               <Route path="/services/low-code" element={<LowCode />} />
               <Route path="/services/ia-machine-learning" element={<IAMachineLearning />} />
               <Route path="/services/consultoria-it" element={<ConsultoriaIT />} />
-              <Route path="/custom-software" element={<CustomSoftware />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/projects" element={<Projects />} />
               <Route path="/projects/e-commerce-platform" element={<EcommercePlatform />} />
               <Route path="/projects/app-de-gestion" element={<AppDeGestion />} />
               <Route path="/projects/iot-dashboard" element={<IoTDashboard />} />
               <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
               <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
               <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
-              <Route path="/politica-cookies" element={<PoliticaCookies />} />
-              <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
-              <Route path="/terminos-servicio" element={<TerminosServicio />} />
-              <Route path="/schedule" element={<Schedule />} />
             </Routes>
+            <AIChat />
+            <CookieConsent />
           </Layout>
-          <CookieConsent />
-          <AIChat />
         </ThemeProvider>
       </Router>
     </>
