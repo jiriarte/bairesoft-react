@@ -11,6 +11,9 @@ const theme = {
     error: '#FF0000',
     success: '#00FF00',
     warning: '#FFA500',
+    card: '#111111',
+    primaryLight: 'rgba(0, 112, 243, 0.1)',
+    primaryDark: '#0052b3'
   },
   fonts: {
     body: "'Inter', sans-serif",
@@ -36,13 +39,13 @@ const theme = {
   },
   lineHeights: {
     none: 1,
-    tight: 1.1,
-    snug: 1.2,
+    tight: 1.25,
     normal: 1.5,
-    relaxed: 1.625,
+    relaxed: 1.75,
     loose: 2,
   },
   space: {
+    px: '1px',
     0: '0',
     1: '0.25rem',
     2: '0.5rem',
@@ -63,6 +66,7 @@ const theme = {
     64: '16rem',
   },
   breakpoints: {
+    xs: '320px',
     sm: '640px',
     md: '768px',
     lg: '1024px',
@@ -86,6 +90,9 @@ const theme = {
     md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
     xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+    inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+    none: 'none',
   },
   transitions: {
     base: 'all 0.3s ease',

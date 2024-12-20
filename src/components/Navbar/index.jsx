@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import Logo from '../Logo';
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -25,10 +26,7 @@ const Nav = styled(motion.nav)`
   }
 `;
 
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.primary};
+const LogoWrapper = styled(Link)`
   text-decoration: none;
   z-index: 1001;
 `;
@@ -139,7 +137,9 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Logo to="/">Bairesoft</Logo>
+      <LogoWrapper to="/">
+        <Logo />
+      </LogoWrapper>
 
       <NavLinks>
         {links.map(link => (
