@@ -9,12 +9,14 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run copy-redirects",
     "preview": "vite preview",
     "start": "vite preview --host --port $PORT",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "analyze": "vite-bundle-analyzer"
+    "analyze": "vite-bundle-analyzer",
+    "postbuild": "npm run copy-redirects",
+    "copy-redirects": "node -e \"require('fs').copyFileSync('public/_redirects', 'dist/_redirects')\""
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

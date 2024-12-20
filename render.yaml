@@ -5,31 +5,18 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: true
-    envVars:
-      - key: NODE_VERSION
-        value: 18.17.0
-      - key: NODE_ENV
-        value: production
     headers:
       - path: /*
         name: Cache-Control
-        value: public, max-age=31536000
-      - path: /index.html
-        name: Cache-Control
-        value: public, no-cache
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: Permissions-Policy
-        value: "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+        value: public, max-age=31536000, immutable
     routes:
       - type: rewrite
-        source: /**
+        source: /*
         destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: NPM_VERSION
+        value: 9.0.0
+    autoDeploy: true
+    healthCheckPath: /
