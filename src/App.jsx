@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import { HelmetProvider } from 'react-helmet-async';
 import theme from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
 import Loading from './components/Loading';
@@ -29,34 +30,36 @@ const PlataformaEducativa = lazy(() => import('./pages/Projects/plataforma-educa
 
 function App() {
   return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Layout>
-          <Navbar />
-          <Suspense fallback={<Loading />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/schedule" element={<Schedule />} />
-              <Route path="/insights" element={<Insights />} />
-              <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
-              <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
-              <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
-              <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
-              <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
-              <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
-            </Routes>
-          </Suspense>
-          <CookieConsent />
-          <Footer />
-        </Layout>
-      </ThemeProvider>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Layout>
+            <Navbar />
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/schedule" element={<Schedule />} />
+                <Route path="/insights" element={<Insights />} />
+                <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
+                <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
+                <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
+                <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
+                <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
+                <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
+              </Routes>
+            </Suspense>
+            <CookieConsent />
+            <Footer />
+          </Layout>
+        </ThemeProvider>
+      </Router>
+    </HelmetProvider>
   );
 }
 

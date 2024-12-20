@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://bairesoft.com/sitemap.xml
+
+# Rutas principales
+Allow: /services
+Allow: /projects
+Allow: /insights
+Allow: /blog
+Allow: /contact
+Allow: /schedule
+
+# Archivos estáticos
+Disallow: /static/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$

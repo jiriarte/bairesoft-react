@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight, FaLightbulb, FaRocket, FaChartLine } from 'react-icons/fa';
+import SEO from '../../components/SEO';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -132,49 +133,57 @@ const Insights = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
-    <Container>
-      <Content>
-        <Header>
-          <Title
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Insights & Perspectivas
-          </Title>
-          <Description
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Exploramos las últimas tendencias en tecnología y negocios para ayudarte
-            a tomar decisiones informadas en tu viaje de transformación digital.
-          </Description>
-        </Header>
-
-        <Grid>
-          {insights.map((insight, index) => (
-            <InsightCard
-              key={insight.id}
-              onClick={() => navigate(insight.link)}
+    <>
+      <SEO 
+        title="Insights y Perspectivas Tecnológicas"
+        description="Explora las últimas tendencias en tecnología y transformación digital. Artículos sobre innovación, estrategias empresariales y avances tecnológicos."
+        keywords="insights tecnológicos, transformación digital, innovación empresarial, tendencias tecnológicas, estrategia digital, desarrollo tecnológico"
+        url="/insights"
+      />
+      <Container>
+        <Content>
+          <Header>
+            <Title
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              onHoverStart={() => setHoveredCard(insight.id)}
-              onHoverEnd={() => setHoveredCard(null)}
+              transition={{ duration: 0.5 }}
             >
-              <CardIcon>{insight.icon}</CardIcon>
-              <CardTitle>{insight.title}</CardTitle>
-              <CardDescription>{insight.description}</CardDescription>
-              <CardLink>
-                <span>Leer más</span>
-                <FaArrowRight />
-              </CardLink>
-            </InsightCard>
-          ))}
-        </Grid>
-      </Content>
-    </Container>
+              Insights & Perspectivas
+            </Title>
+            <Description
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Exploramos las últimas tendencias en tecnología y negocios para ayudarte
+              a tomar decisiones informadas en tu viaje de transformación digital.
+            </Description>
+          </Header>
+
+          <Grid>
+            {insights.map((insight, index) => (
+              <InsightCard
+                key={insight.id}
+                onClick={() => navigate(insight.link)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onHoverStart={() => setHoveredCard(insight.id)}
+                onHoverEnd={() => setHoveredCard(null)}
+              >
+                <CardIcon>{insight.icon}</CardIcon>
+                <CardTitle>{insight.title}</CardTitle>
+                <CardDescription>{insight.description}</CardDescription>
+                <CardLink>
+                  <span>Leer más</span>
+                  <FaArrowRight />
+                </CardLink>
+              </InsightCard>
+            ))}
+          </Grid>
+        </Content>
+      </Container>
+    </>
   );
 };
 
