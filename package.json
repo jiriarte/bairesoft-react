@@ -12,10 +12,7 @@
     "build": "vite build && npm run copy-redirects",
     "preview": "vite preview",
     "start": "vite preview --host --port $PORT",
-    "clean": "rimraf dist",
-    "prebuild": "npm run clean",
-    "analyze": "vite-bundle-analyzer",
-    "postbuild": "npm run copy-redirects",
+    "clean": "rm -rf dist",
     "copy-redirects": "node -e \"require('fs').copyFileSync('public/_redirects', 'dist/_redirects')\""
   },
   "dependencies": {
@@ -46,7 +43,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "rimraf": "^5.0.5",
     "terser": "^5.24.0",
     "vite-bundle-analyzer": "^0.8.1"
   },

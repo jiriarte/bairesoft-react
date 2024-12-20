@@ -18,5 +18,7 @@ services:
         value: 18.0.0
       - key: NPM_VERSION
         value: 9.0.0
+      - key: NODE_ENV
+        value: production
     autoDeploy: true
     healthCheckPath: /
