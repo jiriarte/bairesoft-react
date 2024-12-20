@@ -1,189 +1,101 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaShare, FaTwitter, FaLinkedin, FaFacebook } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import LazyImage from '../../components/LazyImage';
 
 const Card = styled(motion.article)`
   background: ${({ theme }) => theme.colors.card};
-  border-radius: 16px;
+  border-radius: ${({ theme }) => theme.radii.lg};
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   height: 100%;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+  box-shadow: ${({ theme }) => theme.shadows.md};
 
   &:hover {
     transform: translateY(-5px);
   }
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    &:hover {
-      transform: none;
-    }
-  }
 `;
 
-const BlogImage = styled.div`
-  position: relative;
+const ImageContainer = styled.div`
   width: 100%;
-  padding-top: 66.67%; /* Aspect ratio 3:2 */
+  height: 200px;
   overflow: hidden;
-  display: block;
-  cursor: pointer;
 `;
 
-const Image = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-
-  ${BlogImage}:hover & {
-    transform: scale(1.05);
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    ${BlogImage}:hover & {
-      transform: none;
-    }
-  }
-`;
-
-const BlogContent = styled.div`
-  padding: 1rem;
+const Content = styled.div`
+  padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 0.875rem;
-  }
 `;
 
-const BlogTitle = styled.h2`
-  font-size: 1.25rem;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 1.1rem;
-    margin-bottom: 0.375rem;
-  }
+const Title = styled.h2`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  margin: 0 0 1rem;
+  line-height: ${({ theme }) => theme.lineHeights.tight};
 `;
 
-const BlogMeta = styled.div`
+const Description = styled.p`
+  color: ${({ theme }) => theme.colors.textLight};
+  font-size: ${({ theme }) => theme.fontSizes.base};
+  margin: 0 0 1.5rem;
+  flex: 1;
+`;
+
+const Meta = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
   color: ${({ theme }) => theme.colors.textLight};
-  font-size: 0.9rem;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 0.8rem;
-  }
+  font-size: ${({ theme }) => theme.fontSizes.sm};
 `;
 
-const SocialIcons = styled.div`
-  display: flex;
-  gap: 0.75rem;
-  color: ${({ theme }) => theme.colors.textLight};
-  
-  svg {
-    cursor: pointer;
-    transition: color 0.2s ease;
-    font-size: 1rem;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.primary};
-    }
-  }
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
 `;
 
-const BlogExcerpt = styled.p`
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  flex: 1;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-  }
+const Tag = styled.span`
+  background: ${({ theme }) => theme.colors.primaryLight};
+  color: ${({ theme }) => theme.colors.primary};
+  padding: 0.25rem 0.75rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 `;
 
-const handleImageError = (e) => {
-  e.target.src = '/images/placeholder.svg';
-};
-
-const BlogCard = ({ post, style }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/blog/${post.id}`);
-  };
-
-  const handleShare = (platform) => (e) => {
-    e.stopPropagation();
-    const url = encodeURIComponent(`${window.location.origin}/blog/${post.id}`);
-    const title = encodeURIComponent(post.title);
-    
-    let shareUrl;
-    switch (platform) {
-      case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
-        break;
-      case 'linkedin':
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
-        break;
-      case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        break;
-      default:
-        return;
-    }
-    
-    window.open(shareUrl, '_blank', 'noopener,noreferrer');
-  };
-
+const BlogCard = ({ post, priority = false }) => {
   return (
-    <Card
-      style={style}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      onClick={handleClick}
-    >
-      <BlogImage>
-        <Image
-          src={post.imageUrl}
-          alt={post.title}
-          onError={handleImageError}
-          loading="lazy"
-        />
-      </BlogImage>
-      <BlogContent>
-        <BlogTitle>{post.title}</BlogTitle>
-        <BlogExcerpt>{post.excerpt}</BlogExcerpt>
-        <BlogMeta>
-          <span>{post.date}</span>
-          <SocialIcons>
-            <FaTwitter onClick={handleShare('twitter')} />
-            <FaLinkedin onClick={handleShare('linkedin')} />
-            <FaFacebook onClick={handleShare('facebook')} />
-          </SocialIcons>
-        </BlogMeta>
-      </BlogContent>
-    </Card>
+    <StyledLink to={`/blog/${post.id}`}>
+      <Card
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <ImageContainer>
+          <LazyImage
+            src={post.image}
+            alt={post.title}
+            height="200px"
+            priority={priority}
+          />
+        </ImageContainer>
+        <Content>
+          <Title>{post.title}</Title>
+          <Description>{post.description}</Description>
+          <Meta>
+            <Tag>{post.category}</Tag>
+            <span>{post.date}</span>
+          </Meta>
+        </Content>
+      </Card>
+    </StyledLink>
   );
 };
 
-export default React.memo(BlogCard);
+export default BlogCard;
