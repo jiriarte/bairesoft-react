@@ -9,6 +9,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Layout from './components/Layout';
 import CookieConsent from './components/CookieConsent';
+import FontOptimizer from './components/FontOptimizer';
+import ResourceOptimizer from './components/ResourceOptimizer';
 
 // Lazy loaded components
 const Home = lazy(() => import('./pages/Home'));
@@ -31,6 +33,8 @@ const PlataformaEducativa = lazy(() => import('./pages/Projects/plataforma-educa
 function App() {
   return (
     <HelmetProvider>
+      <FontOptimizer />
+      <ResourceOptimizer />
       <Router>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
