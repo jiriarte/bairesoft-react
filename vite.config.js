@@ -56,6 +56,11 @@ export default defineConfig({
       }
     })
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
+    }
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -70,7 +75,7 @@ export default defineConfig({
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
-      },
+      }
     },
     chunkSizeWarningLimit: 1000,
     cssCodeSplit: true,
@@ -82,19 +87,14 @@ export default defineConfig({
       }
     }
   },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
-  },
   server: {
     port: process.env.PORT || 3000,
     strictPort: true,
-    host: '0.0.0.0'
+    host: true
   },
   preview: {
     port: process.env.PORT || 3000,
     strictPort: true,
-    host: '0.0.0.0'
+    host: true
   }
 });
