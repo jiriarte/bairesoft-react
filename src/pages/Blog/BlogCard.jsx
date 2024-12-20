@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaShare, FaTwitter, FaLinkedin, FaFacebook } from 'react-icons/fa';
 
 const Card = styled(motion.article)`
@@ -26,12 +26,13 @@ const Card = styled(motion.article)`
   }
 `;
 
-const BlogImage = styled(Link)`
+const BlogImage = styled.div`
   position: relative;
   width: 100%;
   padding-top: 66.67%; /* Aspect ratio 3:2 */
   overflow: hidden;
   display: block;
+  cursor: pointer;
 `;
 
 const Image = styled.img`
@@ -99,25 +100,58 @@ const SocialIcons = styled.div`
     cursor: pointer;
     transition: color 0.2s ease;
     font-size: 1rem;
-    
+
     &:hover {
       color: ${({ theme }) => theme.colors.primary};
     }
   }
+`;
+
+const BlogExcerpt = styled.p`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex: 1;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    gap: 0.5rem;
-    
-    svg {
-      font-size: 0.9rem;
-    }
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
   }
 `;
 
-const BlogCard = React.memo(({ post, onImageError, style }) => {
-  const handleImageError = (e) => {
-    e.target.src = '/images/default-blog.jpg';
-    if (onImageError) onImageError(post.id);
+const handleImageError = (e) => {
+  e.target.src = '/images/placeholder.svg';
+};
+
+const BlogCard = ({ post, style }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/blog/${post.id}`);
+  };
+
+  const handleShare = (platform) => (e) => {
+    e.stopPropagation();
+    const url = encodeURIComponent(`${window.location.origin}/blog/${post.id}`);
+    const title = encodeURIComponent(post.title);
+    
+    let shareUrl;
+    switch (platform) {
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+        break;
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      default:
+        return;
+    }
+    
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -125,34 +159,31 @@ const BlogCard = React.memo(({ post, onImageError, style }) => {
       style={style}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0, y: -20 }}
+      onClick={handleClick}
     >
-      <BlogImage to={`/blog/${post.id}`}>
-        <Image 
-          src={post.imageUrl} 
+      <BlogImage>
+        <Image
+          src={post.imageUrl}
           alt={post.title}
           onError={handleImageError}
           loading="lazy"
         />
       </BlogImage>
       <BlogContent>
-        <Link to={`/blog/${post.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-          <BlogTitle>{post.title}</BlogTitle>
-        </Link>
+        <BlogTitle>{post.title}</BlogTitle>
+        <BlogExcerpt>{post.excerpt}</BlogExcerpt>
         <BlogMeta>
           <span>{post.date}</span>
           <SocialIcons>
-            <FaTwitter />
-            <FaLinkedin />
-            <FaFacebook />
-            <FaShare />
+            <FaTwitter onClick={handleShare('twitter')} />
+            <FaLinkedin onClick={handleShare('linkedin')} />
+            <FaFacebook onClick={handleShare('facebook')} />
           </SocialIcons>
         </BlogMeta>
       </BlogContent>
     </Card>
   );
-});
+};
 
-BlogCard.displayName = 'BlogCard';
-
-export default BlogCard;
+export default React.memo(BlogCard);

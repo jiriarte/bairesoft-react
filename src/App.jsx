@@ -28,6 +28,11 @@ import ERPIndustrial from './pages/Projects/erp-industrial';
 import SistemaDeReservas from './pages/Projects/sistema-de-reservas';
 import PlataformaEducativa from './pages/Projects/plataforma-educativa';
 import Schedule from './pages/Schedule';
+import Insights from './pages/Insights';
+import { lazy } from 'react';
+const InnovacionDigital = lazy(() => import('./pages/Insights/InnovacionDigital'));
+const TransformacionEmpresarial = lazy(() => import('./pages/Insights/TransformacionEmpresarial'));
+const TendenciasTecnologicas = lazy(() => import('./pages/Insights/TendenciasTecnologicas'));
 
 function App() {
   return (
@@ -42,7 +47,7 @@ function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/custom-software" element={<CustomSoftware />} />
               <Route path="/schedule" element={<Schedule />} />
@@ -61,6 +66,10 @@ function App() {
               <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
               <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
               <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
+              <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
+              <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
             </Routes>
             <CookieConsent />
           </Layout>

@@ -1,127 +1,58 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import Logo from '../Logo';
+import { Link, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Nav = styled(motion.nav)`
-  width: 100%;
-  padding: 1rem;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 0.75rem 1rem;
-  }
-`;
-
-const NavContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
+  right: 0;
+  height: 80px;
+  padding: 0 2rem;
+  background: ${({ theme, scrolled }) => scrolled ? theme.colors.card : 'transparent'};
+  backdrop-filter: ${({ scrolled }) => scrolled ? 'blur(10px)' : 'none'};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px;
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: ${({ scrolled }) => scrolled ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'};
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    display: none;
+    padding: 0 1rem;
   }
 `;
 
-const NavLink = styled(Link)`
-  color: ${props => props.theme.colors.text};
-  font-weight: ${props => props.theme.fontWeights.medium};
-  position: relative;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+const Logo = styled(Link)`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: ${props => props.theme.colors.gradient};
-    transition: width 0.3s ease;
-  }
-  
-  &:hover {
-    &:after {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
-    
-    &:after {
-      display: none;
-    }
-  }
-`;
-
-const ContactButton = styled(Link)`
-  padding: 0.75rem 1.5rem;
-  background: ${props => props.theme.colors.gradient};
-  color: white;
-  border-radius: 9999px;
-  font-weight: ${props => props.theme.fontWeights.medium};
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: ${props => props.theme.colors.gradient};
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    &:before {
-      opacity: 1;
-    }
-  }
+  z-index: 1001;
 `;
 
 const MenuButton = styled.button`
   display: none;
   background: none;
   border: none;
-  color: ${props => props.theme.colors.text};
+  color: ${({ theme }) => theme.colors.text};
   font-size: 1.5rem;
   cursor: pointer;
   z-index: 1001;
-  padding: 0.5rem;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+  }
+`;
+
+const NavLinks = styled(motion.div)`
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    display: none;
   }
 `;
 
@@ -130,51 +61,57 @@ const MobileMenu = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 5rem 2rem 2rem;
-  z-index: 999;
+  right: 0;
+  bottom: 0;
+  background: ${({ theme }) => theme.colors.background};
+  padding: 6rem 2rem;
+  z-index: 1000;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 `;
 
-const MobileNavLink = styled(NavLink)`
-  font-size: 1.25rem;
-  padding: 0.75rem;
-  width: 100%;
-  text-align: center;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+const NavLink = styled(Link)`
+  color: ${({ theme, active }) => active ? theme.colors.primary : theme.colors.text};
+  text-decoration: none;
+  font-weight: ${({ active }) => active ? '600' : '400'};
+  transition: color 0.3s ease;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: ${({ theme }) => theme.colors.primary};
+    transform: scaleX(${({ active }) => active ? 1 : 0});
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+  }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    color: ${({ theme }) => theme.colors.primary};
+
+    &:after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
   }
 `;
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const menuItems = [
-    { path: '/', label: 'Inicio' },
-    { path: '/about', label: 'Nosotros' },
-    { path: '/services', label: 'Servicios' },
-    { path: '/custom-software', label: 'Software a Medida' },
-    { path: '/projects', label: 'Proyectos' },
-    { path: '/blog', label: 'Blog' },
-    { path: '/contact', label: 'Contacto' }
-  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -182,56 +119,61 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
+    setIsOpen(false);
+  }, [location]);
+
+  const links = [
+    { to: '/', text: 'Inicio' },
+    { to: '/services', text: 'Servicios' },
+    { to: '/projects', text: 'Proyectos' },
+    { to: '/insights', text: 'Insights' },
+    { to: '/blog', text: 'Blog' },
+    { to: '/contact', text: 'Contacto' },
+    { to: '/schedule', text: 'Agenda' },
+  ];
 
   return (
     <Nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
+      scrolled={scrolled}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      isScrolled={isScrolled}
     >
-      <NavContainer>
-        <Link to="/" style={{ textDecoration: 'none' }} onClick={() => setIsMobileMenuOpen(false)}>
-          <Logo />
-        </Link>
-        <NavLinks>
-          {menuItems.map((item, index) => (
-            <NavLink key={index} to={item.path}>{item.label}</NavLink>
-          ))}
-        </NavLinks>
-        <MenuButton 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-        >
-          {isMobileMenuOpen ? '✕' : '☰'}
-        </MenuButton>
-      </NavContainer>
+      <Logo to="/">Bairesoft</Logo>
+
+      <NavLinks>
+        {links.map(link => (
+          <NavLink
+            key={link.to}
+            to={link.to}
+            active={location.pathname === link.to}
+          >
+            {link.text}
+          </NavLink>
+        ))}
+      </NavLinks>
+
+      <MenuButton onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </MenuButton>
 
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {isOpen && (
           <MobileMenu
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween' }}
           >
-            {menuItems.map((item, index) => (
-              <MobileNavLink 
-                key={index} 
-                to={item.path} 
-                onClick={() => setIsMobileMenuOpen(false)}
+            {links.map(link => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                active={location.pathname === link.to}
+                onClick={() => setIsOpen(false)}
               >
-                {item.label}
-              </MobileNavLink>
+                {link.text}
+              </NavLink>
             ))}
           </MobileMenu>
         )}
