@@ -1,22 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MessageSquare,
-  Send,
-  X,
-  Loader,
-  Bot,
-  User,
-  ChevronDown,
-  Maximize2,
-  Minimize2,
-  Image as ImageIcon,
-  Paperclip,
-  Mic
-} from 'lucide-react';
+import { MessageSquare, Send, X, Loader, Bot, User } from 'lucide-react';
+import { sendMessageToAnthropic } from '../../services/anthropic';
 
-const ChatbotContainer = styled.div`
+const ChatContainer = styled.div`
   position: fixed;
   bottom: 2rem;
   right: 2rem;
@@ -61,6 +49,7 @@ const ChatWindow = styled(motion.div)`
     bottom: 0;
     right: 0;
     border-radius: 0;
+    position: fixed;
   }
 `;
 
@@ -98,12 +87,7 @@ const HeaderStatus = styled.div`
   opacity: 0.8;
 `;
 
-const HeaderActions = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const HeaderButton = styled.button`
+const CloseButton = styled.button`
   background: none;
   border: none;
   color: white;
@@ -205,18 +189,13 @@ const TextArea = styled.textarea`
   }
 `;
 
-const InputActions = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const ActionButton = styled.button`
+const SendButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: ${props => props.theme.radii.md};
-  border: 1px solid ${props => props.theme.colors.border};
-  background: white;
-  color: ${props => props.theme.colors.text};
+  background: ${props => props.theme.colors.primary};
+  color: white;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,25 +203,13 @@ const ActionButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: ${props => props.theme.colors.primary};
-    color: ${props => props.theme.colors.primary};
+    background: ${props => props.theme.colors.primaryDark};
   }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
-  ${props => props.primary && `
-    background: ${props.theme.colors.primary};
-    color: white;
-    border: none;
-
-    &:hover {
-      background: ${props.theme.colors.primaryDark};
-      color: white;
-    }
-  `}
 `;
 
 const TypingIndicator = styled.div`
@@ -267,6 +234,13 @@ const TypingIndicator = styled.div`
   }
 `;
 
+const suggestedQuestions = [
+  "¿Qué servicios ofrecen?",
+  "¿Cómo puedo solicitar un presupuesto?",
+  "¿Cuál es su proceso de trabajo?",
+  "¿Tienen experiencia en mi sector?"
+];
+
 const SuggestedQuestions = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -290,24 +264,7 @@ const SuggestedQuestion = styled.button`
   }
 `;
 
-// Simulación de respuestas del chatbot
-const generateBotResponse = async (message) => {
-  // Aquí conectarías con tu API de IA (OpenAI, etc.)
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return {
-    text: `Gracias por tu mensaje. Esta es una respuesta de ejemplo para: "${message}"`,
-    timestamp: new Date()
-  };
-};
-
-const suggestedQuestions = [
-  "¿Qué servicios ofrecen?",
-  "¿Cómo puedo contactarlos?",
-  "Necesito un presupuesto",
-  "¿Cuál es su proceso de trabajo?"
-];
-
-const Chatbot = () => {
+const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -319,42 +276,43 @@ const Chatbot = () => {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
-  const handleSend = async () => {
-    if (!newMessage.trim()) return;
-
-    const userMessage = {
-      id: messages.length + 1,
-      text: newMessage,
-      sender: 'user',
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setNewMessage('');
-    setIsTyping(true);
+  const handleSubmit = async (message) => {
+    if (!message.trim()) return;
 
     try {
-      const response = await generateBotResponse(newMessage);
-      const botMessage = {
-        id: messages.length + 2,
-        text: response.text,
-        sender: 'bot',
-        timestamp: response.timestamp
-      };
-      setMessages(prev => [...prev, botMessage]);
+      setIsTyping(true);
+      setError(null);
+
+      console.log('Sending message:', message);
+      
+      const response = await sendMessageToAnthropic(message, messages);
+      
+      console.log('Response received:', response);
+
+      if (!response || !response.text) {
+        throw new Error('Respuesta inválida del servidor');
+      }
+
+      setMessages(prev => [
+        ...prev,
+        { id: messages.length + 1, text: message, sender: 'user', timestamp: new Date() },
+        { id: messages.length + 2, text: response.text, sender: 'bot', timestamp: response.timestamp }
+      ]);
+
     } catch (error) {
-      console.error('Error generating response:', error);
+      console.error('Error in handleSubmit:', error);
+      setError(error.message || 'Ha ocurrido un error al enviar el mensaje');
     } finally {
       setIsTyping(false);
     }
@@ -363,7 +321,7 @@ const Chatbot = () => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      handleSubmit(newMessage);
     }
   };
 
@@ -375,7 +333,7 @@ const Chatbot = () => {
   };
 
   return (
-    <ChatbotContainer>
+    <ChatContainer>
       <AnimatePresence>
         {isOpen && (
           <ChatWindow
@@ -383,14 +341,6 @@ const Chatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            style={isExpanded ? {
-              position: 'fixed',
-              top: '20px',
-              right: '20px',
-              bottom: '20px',
-              width: 'calc(100vw - 40px)',
-              height: 'auto'
-            } : {}}
           >
             <ChatHeader>
               <BotAvatar>
@@ -402,14 +352,9 @@ const Chatbot = () => {
                   {isTyping ? 'Escribiendo...' : 'En línea'}
                 </HeaderStatus>
               </HeaderInfo>
-              <HeaderActions>
-                <HeaderButton onClick={() => setIsExpanded(!isExpanded)}>
-                  {isExpanded ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
-                </HeaderButton>
-                <HeaderButton onClick={() => setIsOpen(false)}>
-                  <X size={20} />
-                </HeaderButton>
-              </HeaderActions>
+              <CloseButton onClick={() => setIsOpen(false)}>
+                <X size={20} />
+              </CloseButton>
             </ChatHeader>
 
             <ChatMessages>
@@ -433,6 +378,11 @@ const Chatbot = () => {
                   <Loader size={16} />
                   El asistente está escribiendo...
                 </TypingIndicator>
+              )}
+              {error && (
+                <div style={{ color: 'red', padding: '1rem' }}>
+                  {error}
+                </div>
               )}
               <div ref={messagesEndRef} />
             </ChatMessages>
@@ -458,30 +408,15 @@ const Chatbot = () => {
                   onKeyPress={handleKeyPress}
                   rows={1}
                 />
-                <InputActions>
-                  <ActionButton>
-                    <Paperclip size={20} />
-                  </ActionButton>
-                  <ActionButton>
-                    <ImageIcon size={20} />
-                  </ActionButton>
-                  <ActionButton>
-                    <Mic size={20} />
-                  </ActionButton>
-                  <ActionButton 
-                    primary 
-                    onClick={handleSend}
-                    disabled={!newMessage.trim() || isTyping}
-                  >
-                    <Send size={20} />
-                  </ActionButton>
-                </InputActions>
+                <SendButton onClick={() => handleSubmit(newMessage)} disabled={!newMessage.trim() || isTyping}>
+                  <Send size={20} />
+                </SendButton>
               </InputWrapper>
             </ChatInput>
           </ChatWindow>
         )}
       </AnimatePresence>
-
+      
       <ChatButton
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
@@ -489,8 +424,8 @@ const Chatbot = () => {
       >
         <MessageSquare size={24} />
       </ChatButton>
-    </ChatbotContainer>
+    </ChatContainer>
   );
 };
 
-export default Chatbot;
+export default AIAssistant;

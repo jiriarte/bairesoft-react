@@ -296,27 +296,24 @@ const Services = () => {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6 }}
           >
-            ¿Listo para transformar tu negocio?
+            ¿Listo para empezar tu proyecto?
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Contáctanos hoy mismo para discutir cómo podemos ayudarte a alcanzar
-            tus objetivos tecnológicos.
+            Agenda una consulta gratuita con nuestros expertos para discutir tu proyecto y encontrar la mejor solución.
           </motion.p>
           <CTAButton
-            onClick={() => navigate('/contact')}
+            as={Link}
+            to="/schedule"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
           >
-            Contactar Ahora
+            Agendar Consulta Gratuita
           </CTAButton>
         </CTASection>
       </ContentWrapper>

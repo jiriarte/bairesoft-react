@@ -215,7 +215,7 @@ const CTA = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <PrimaryButton href="/contacto">
+              <PrimaryButton href="/schedule">
                 Comienza Ahora
                 <ArrowRight size={16} />
               </PrimaryButton>

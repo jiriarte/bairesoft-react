@@ -169,7 +169,7 @@ const Footer = () => {
           <FooterLink to="/">Inicio</FooterLink>
           <FooterLink to="/projects">Proyectos</FooterLink>
           <FooterLink to="/blog">Blog</FooterLink>
-          <FooterLink to="/contact">Contacto</FooterLink>
+          <FooterLink to="/schedule">Agendar Consulta</FooterLink>
         </FooterColumn>
 
         <FooterColumn>

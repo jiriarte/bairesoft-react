@@ -27,7 +27,6 @@ import IoTDashboard from './pages/Projects/iot-dashboard';
 import ERPIndustrial from './pages/Projects/erp-industrial';
 import SistemaDeReservas from './pages/Projects/sistema-de-reservas';
 import PlataformaEducativa from './pages/Projects/plataforma-educativa';
-import AIChat from './components/AIChat';
 import Schedule from './pages/Schedule';
 
 function App() {
@@ -63,7 +62,6 @@ function App() {
               <Route path="/projects/sistema-de-reservas" element={<SistemaDeReservas />} />
               <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
             </Routes>
-            <AIChat />
             <CookieConsent />
           </Layout>
         </ThemeProvider>
