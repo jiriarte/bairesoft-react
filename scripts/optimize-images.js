@@ -49,9 +49,9 @@ async function optimizeImage(inputPath, outputPath) {
       ]
     });
 
-    console.log(\`✅ Optimized: \${path.basename(inputPath)}\`);
+    console.log(`Optimized: ${path.basename(inputPath)}`);
   } catch (error) {
-    console.error(\`❌ Error optimizing \${inputPath}:\`, error);
+    console.error(`Error optimizing ${inputPath}:`, error);
   }
 }
 
@@ -84,7 +84,7 @@ const OUTPUT_DIR = path.join(__dirname, '../public/images-optimized');
 
 // Iniciar optimización
 (async () => {
-  console.log('🚀 Starting image optimization...');
+  console.log('Starting image optimization...');
   await processDirectory(INPUT_DIR, OUTPUT_DIR);
-  console.log('✨ Image optimization complete!');
+  console.log('Image optimization complete!');
 })();
