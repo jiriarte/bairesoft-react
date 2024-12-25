@@ -33,6 +33,10 @@ const FooterColumn = styled.div`
   gap: 1.5rem;
 `;
 
+const LogoContainer = styled.div`
+  margin-bottom: 2rem;
+`;
+
 const FooterTitle = styled.h3`
   font-size: 1.1rem;
   font-weight: 600;
@@ -120,9 +124,11 @@ const Footer = () => {
     <FooterContainer>
       <FooterContent>
         <FooterColumn>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Logo />
-          </Link>
+          <LogoContainer>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <Logo />
+            </Link>
+          </LogoContainer>
           <FooterText>
             Desarrollamos soluciones tecnológicas innovadoras para impulsar el crecimiento de tu empresa.
           </FooterText>
