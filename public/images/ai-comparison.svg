@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <!-- Fondo -->
+  <rect width="600" height="400" fill="#fff"/>
+  
+  <!-- Título -->
+  <text x="300" y="80" fill="#333" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24">Claude vs ChatGPT</text>
+  
+  <!-- Círculo izquierdo (Claude) -->
+  <circle cx="200" cy="180" r="70" fill="#7B61FF" opacity="0.1"/>
+  <circle cx="200" cy="180" r="60" fill="#7B61FF" opacity="0.2"/>
+  <text x="200" y="170" fill="#7B61FF" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24">Claude</text>
+  <text x="200" y="195" fill="#666" text-anchor="middle" font-family="Arial" font-size="16">Anthropic</text>
+  
+  <!-- Círculo derecho (ChatGPT) -->
+  <circle cx="400" cy="180" r="70" fill="#19C37D" opacity="0.1"/>
+  <circle cx="400" cy="180" r="60" fill="#19C37D" opacity="0.2"/>
+  <text x="400" y="170" fill="#19C37D" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24">ChatGPT</text>
+  <text x="400" y="195" fill="#666" text-anchor="middle" font-family="Arial" font-size="16">OpenAI</text>
+  
+  <!-- VS en el medio -->
+  <circle cx="300" cy="180" r="25" fill="#FF4B4B" opacity="0.2"/>
+  <text x="300" y="188" fill="#FF4B4B" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="20">VS</text>
+  
+  <!-- Características -->
+  <g transform="translate(120, 280)">
+    <rect width="360" height="80" rx="8" fill="#f5f5f5"/>
+    <text x="180" y="35" fill="#333" text-anchor="middle" font-family="Arial" font-size="16">Análisis Comparativo 2024</text>
+    <text x="180" y="60" fill="#666" text-anchor="middle" font-family="Arial" font-size="14">Precisión • Creatividad • Razonamiento</text>
+  </g>
+</svg>

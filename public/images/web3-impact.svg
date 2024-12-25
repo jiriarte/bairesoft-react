@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <!-- Fondo -->
+  <rect width="600" height="400" fill="#fff"/>
+  
+  <!-- Título -->
+  <text x="300" y="80" fill="#333" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="24">Web3 Impact</text>
+  
+  <!-- Blockchain Network -->
+  <g transform="translate(100, 120)">
+    <!-- Bloques conectados -->
+    <g>
+      <!-- Bloque 1 -->
+      <rect x="0" y="0" width="80" height="80" rx="10" fill="#6B4FBB" opacity="0.8"/>
+      <text x="40" y="45" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">Block</text>
+      <text x="40" y="60" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">#1</text>
+      
+      <!-- Línea de conexión -->
+      <line x1="80" y1="40" x2="120" y2="40" stroke="#6B4FBB" stroke-width="2" stroke-dasharray="5,5"/>
+      
+      <!-- Bloque 2 -->
+      <rect x="120" y="0" width="80" height="80" rx="10" fill="#6B4FBB" opacity="0.8"/>
+      <text x="160" y="45" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">Block</text>
+      <text x="160" y="60" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">#2</text>
+      
+      <!-- Línea de conexión -->
+      <line x1="200" y1="40" x2="240" y2="40" stroke="#6B4FBB" stroke-width="2" stroke-dasharray="5,5"/>
+      
+      <!-- Bloque 3 -->
+      <rect x="240" y="0" width="80" height="80" rx="10" fill="#6B4FBB" opacity="0.8"/>
+      <text x="280" y="45" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">Block</text>
+      <text x="280" y="60" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">#3</text>
+      
+      <!-- Línea de conexión -->
+      <line x1="320" y1="40" x2="360" y2="40" stroke="#6B4FBB" stroke-width="2" stroke-dasharray="5,5"/>
+      
+      <!-- Bloque 4 -->
+      <rect x="360" y="0" width="80" height="80" rx="10" fill="#6B4FBB" opacity="0.8"/>
+      <text x="400" y="45" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">Block</text>
+      <text x="400" y="60" fill="#fff" text-anchor="middle" font-family="Arial" font-size="12">#4</text>
+    </g>
+  </g>
+  
+  <!-- Iconos Web3 -->
+  <g transform="translate(100, 220)">
+    <!-- DApps -->
+    <g transform="translate(0, 0)">
+      <circle cx="40" cy="40" r="35" fill="#6B4FBB" opacity="0.2"/>
+      <text x="40" y="35" fill="#6B4FBB" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="14">DApps</text>
+      <path d="M25,45 L55,45 M40,30 L40,60" stroke="#6B4FBB" stroke-width="2"/>
+    </g>
+    
+    <!-- Smart Contracts -->
+    <g transform="translate(120, 0)">
+      <circle cx="40" cy="40" r="35" fill="#6B4FBB" opacity="0.2"/>
+      <text x="40" y="35" fill="#6B4FBB" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="14">Smart</text>
+      <text x="40" y="50" fill="#6B4FBB" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="14">Contracts</text>
+    </g>
+    
+    <!-- NFTs -->
+    <g transform="translate(240, 0)">
+      <circle cx="40" cy="40" r="35" fill="#6B4FBB" opacity="0.2"/>
+      <text x="40" y="45" fill="#6B4FBB" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="14">NFTs</text>
+    </g>
+    
+    <!-- DAO -->
+    <g transform="translate(360, 0)">
+      <circle cx="40" cy="40" r="35" fill="#6B4FBB" opacity="0.2"/>
+      <text x="40" y="45" fill="#6B4FBB" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="14">DAO</text>
+    </g>
+  </g>
+  
+  <!-- Texto inferior -->
+  <g transform="translate(100, 320)">
+    <rect width="400" height="50" rx="8" fill="#6B4FBB" opacity="0.1"/>
+    <text x="200" y="20" fill="#333" text-anchor="middle" font-family="Arial" font-size="16">El Futuro de la Web Descentralizada</text>
+    <text x="200" y="40" fill="#666" text-anchor="middle" font-family="Arial" font-size="14">Blockchain • Smart Contracts • Descentralización</text>
+  </g>
+</svg>
