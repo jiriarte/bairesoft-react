@@ -1,9 +1,13 @@
-const imagemin = require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
-const imageminPngquant = require('imagemin-pngquant');
-const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs').promises;
+import imagemin from 'imagemin';
+import imageminMozjpeg from 'imagemin-mozjpeg';
+import imageminPngquant from 'imagemin-pngquant';
+import sharp from 'sharp';
+import path from 'path';
+import { promises as fs } from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const QUALITY = 85;
 const MAX_WIDTH = 1920;
