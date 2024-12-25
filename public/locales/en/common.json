@@ -1,0 +1,93 @@
+{
+  "navigation": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Innovative Technology Solutions",
+    "subtitle": "We create custom software solutions to drive your business growth",
+    "cta": "Get Started"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive solutions for your digital transformation",
+    "items": {
+      "webDev": {
+        "title": "Web Development",
+        "description": "Custom web applications tailored to your business needs"
+      },
+      "mobileDev": {
+        "title": "Mobile Development",
+        "description": "Native and cross-platform mobile applications"
+      },
+      "cloudSolutions": {
+        "title": "Cloud Solutions",
+        "description": "Scalable and secure cloud infrastructure"
+      },
+      "consulting": {
+        "title": "IT Consulting",
+        "description": "Strategic technology guidance and support"
+      }
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Your Technology Partner",
+    "description": "We are a team of passionate developers and designers dedicated to creating innovative technology solutions. With years of experience in the industry, we understand the unique challenges businesses face in the digital age.",
+    "values": {
+      "title": "Our Values",
+      "items": {
+        "innovation": {
+          "title": "Innovation",
+          "description": "We stay at the forefront of technology"
+        },
+        "quality": {
+          "title": "Quality",
+          "description": "We deliver excellence in every project"
+        },
+        "collaboration": {
+          "title": "Collaboration",
+          "description": "We work closely with our clients"
+        }
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Let's discuss your project",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send Message",
+      "success": "Message sent successfully!",
+      "error": "There was an error sending your message. Please try again."
+    }
+  },
+  "footer": {
+    "description": "We develop innovative technology solutions to drive your business growth.",
+    "sections": {
+      "company": {
+        "title": "Company",
+        "about": "About Us",
+        "services": "Services",
+        "contact": "Contact"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "cookies": "Cookie Policy"
+      }
+    },
+    "copyright": "© 2024 Bairesoft. All rights reserved."
+  },
+  "cookies": {
+    "message": "We use cookies to enhance your experience on our website.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "settings": "Cookie Settings"
+  }
+}

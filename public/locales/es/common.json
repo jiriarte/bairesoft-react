@@ -1,0 +1,93 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "about": "Nosotros",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Soluciones Tecnológicas Innovadoras",
+    "subtitle": "Creamos soluciones de software a medida para impulsar el crecimiento de tu negocio",
+    "cta": "Comenzar"
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Soluciones integrales para tu transformación digital",
+    "items": {
+      "webDev": {
+        "title": "Desarrollo Web",
+        "description": "Aplicaciones web personalizadas adaptadas a las necesidades de tu negocio"
+      },
+      "mobileDev": {
+        "title": "Desarrollo Móvil",
+        "description": "Aplicaciones móviles nativas y multiplataforma"
+      },
+      "cloudSolutions": {
+        "title": "Soluciones en la Nube",
+        "description": "Infraestructura en la nube escalable y segura"
+      },
+      "consulting": {
+        "title": "Consultoría IT",
+        "description": "Asesoramiento y soporte tecnológico estratégico"
+      }
+    }
+  },
+  "about": {
+    "title": "Nosotros",
+    "subtitle": "Tu Socio Tecnológico",
+    "description": "Somos un equipo de desarrolladores y diseñadores apasionados dedicados a crear soluciones tecnológicas innovadoras. Con años de experiencia en la industria, entendemos los desafíos únicos que enfrentan las empresas en la era digital.",
+    "values": {
+      "title": "Nuestros Valores",
+      "items": {
+        "innovation": {
+          "title": "Innovación",
+          "description": "Nos mantenemos a la vanguardia de la tecnología"
+        },
+        "quality": {
+          "title": "Calidad",
+          "description": "Entregamos excelencia en cada proyecto"
+        },
+        "collaboration": {
+          "title": "Colaboración",
+          "description": "Trabajamos en estrecha colaboración con nuestros clientes"
+        }
+      }
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Hablemos de tu proyecto",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "message": "Mensaje",
+      "submit": "Enviar Mensaje",
+      "success": "¡Mensaje enviado con éxito!",
+      "error": "Hubo un error al enviar tu mensaje. Por favor, intenta nuevamente."
+    }
+  },
+  "footer": {
+    "description": "Desarrollamos soluciones tecnológicas innovadoras para impulsar el crecimiento de tu empresa.",
+    "sections": {
+      "company": {
+        "title": "Empresa",
+        "about": "Nosotros",
+        "services": "Servicios",
+        "contact": "Contacto"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Política de Privacidad",
+        "terms": "Términos de Servicio",
+        "cookies": "Política de Cookies"
+      }
+    },
+    "copyright": "© 2024 Bairesoft. Todos los derechos reservados."
+  },
+  "cookies": {
+    "message": "Utilizamos cookies para mejorar tu experiencia en nuestro sitio web.",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "settings": "Configuración de Cookies"
+  }
+}

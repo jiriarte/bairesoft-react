@@ -15,7 +15,7 @@ const Nav = styled(motion.nav)`
   background: ${({ theme, scrolled }) => scrolled ? theme.colors.card : 'transparent'};
   backdrop-filter: ${({ scrolled }) => scrolled ? 'blur(10px)' : 'none'};
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
   gap: 2rem;
   z-index: 1000;
@@ -24,7 +24,7 @@ const Nav = styled(motion.nav)`
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding: 0 1rem;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 1fr auto;
   }
 `;
 
@@ -110,7 +110,7 @@ const NavLink = styled(Link)`
   }
 `;
 
-const Navbar = () => {
+const Navbar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -146,7 +146,9 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
     >
       <LogoWrapper>
-        <Logo />
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <Logo />
+        </Link>
       </LogoWrapper>
 
       <NavLinks>
@@ -161,6 +163,8 @@ const Navbar = () => {
         ))}
       </NavLinks>
 
+      {children}
+
       <MenuButton onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </MenuButton>
@@ -168,9 +172,9 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <MobileMenu
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween' }}
           >
             {links.map(link => (
@@ -183,6 +187,7 @@ const Navbar = () => {
                 {link.text}
               </NavLink>
             ))}
+            {children}
           </MobileMenu>
         )}
       </AnimatePresence>

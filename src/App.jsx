@@ -10,6 +10,7 @@ import Layout from './components/Layout';
 import CookieConsent from './components/CookieConsent';
 import FontOptimizer from './components/FontOptimizer';
 import ResourceOptimizer from './components/ResourceOptimizer';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 // Lazy loaded components
 const Home = lazy(() => import('./pages/Home'));
@@ -45,7 +46,9 @@ function App() {
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <Layout>
-            <Navbar />
+            <Navbar>
+              <LanguageSwitcher />
+            </Navbar>
             <Suspense fallback={<Loading />}>
               <Routes>
                 <Route path="/" element={<Home />} />
