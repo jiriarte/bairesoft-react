@@ -73,7 +73,7 @@ const Breadcrumbs = () => {
       '@type': 'ListItem',
       'position': index + 1,
       'item': {
-        '@id': \`https://bairesoft.com/\${pathSegments.slice(0, index + 1).join('/')}\`,
+        '@id': `https://bairesoft.com/${pathSegments.slice(0, index + 1).join('/')}`,
         'name': routeConfig[pathSegments[index]] || pathSegments[index]
       }
     }))
@@ -92,7 +92,7 @@ const Breadcrumbs = () => {
           {pathSegments.length > 0 && <Separator />}
         </BreadcrumbItem>
         {pathSegments.map((segment, index) => {
-          const path = \`/\${pathSegments.slice(0, index + 1).join('/')}\`;
+          const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
           const isLast = index === pathSegments.length - 1;
           
           return (

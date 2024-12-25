@@ -14,43 +14,49 @@ const Nav = styled(motion.nav)`
   padding: 0 2rem;
   background: ${({ theme, scrolled }) => scrolled ? theme.colors.card : 'transparent'};
   backdrop-filter: ${({ scrolled }) => scrolled ? 'blur(10px)' : 'none'};
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 2rem;
   z-index: 1000;
   transition: all 0.3s ease;
   box-shadow: ${({ scrolled }) => scrolled ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'};
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding: 0 1rem;
+    grid-template-columns: auto auto;
   }
 `;
 
-const LogoWrapper = styled(Link)`
-  text-decoration: none;
-  z-index: 1001;
+const LogoWrapper = styled.div`
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+`;
+
+const NavLinks = styled(motion.div)`
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    display: none;
+  }
 `;
 
 const MenuButton = styled.button`
+  grid-column: 3;
   display: none;
   background: none;
   border: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: block;
-  }
-`;
-
-const NavLinks = styled(motion.div)`
-  display: flex;
-  gap: 2rem;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    display: none;
   }
 `;
 
@@ -63,7 +69,7 @@ const MobileMenu = styled(motion.div)`
   bottom: 0;
   background: ${({ theme }) => theme.colors.background};
   padding: 6rem 2rem;
-  z-index: 1000;
+  z-index: 999;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: flex;
@@ -78,6 +84,8 @@ const NavLink = styled(Link)`
   font-weight: ${({ active }) => active ? '600' : '400'};
   transition: color 0.3s ease;
   position: relative;
+  padding: 0.5rem;
+  white-space: nowrap;
 
   &:after {
     content: '';
@@ -137,7 +145,7 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <LogoWrapper to="/">
+      <LogoWrapper>
         <Logo />
       </LogoWrapper>
 

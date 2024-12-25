@@ -1,96 +1,94 @@
-# Bairesoft React Portfolio
+# Bairesoft Website
 
-A modern, performant portfolio website built with React, featuring a virtualized blog component and optimized for production deployment.
+Sitio web corporativo de Bairesoft, desarrollado con React y Vite.
 
-## Features
+## Características
 
-- 🚀 Optimized Blog Component with Virtual Rendering
-- 🎨 Modern UI/UX Design
-- 🔍 Advanced Search and Filtering
-- 📱 Fully Responsive Design
-- ⚡ Performance Optimized
-- 🔄 Smooth Animations
+- Vite + React - construcción ultrarrápida y rendimiento optimizado
+- Diseño totalmente responsive
+- UI moderna y atractiva
+- SEO optimizado
+- PWA ready
+- Implementación segura
+- Soporte multiidioma
+- Google Analytics integrado
+- Gestión de cookies GDPR
+- Rendimiento optimizado
 
-## Tech Stack
+## Tecnologías
 
 - React 18
-- Vite
-- Styled Components
-- React Router v6
-- React Window (virtualization)
+- Vite 4
+- TailwindCSS
+- React Router 6
+- React Helmet Async
+- React Query
 - Framer Motion
+- i18next
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18.17.0 or higher)
-- npm or yarn
-
-### Installation
+## Instalación
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/bairesoft-react.git
+# Clonar el repositorio
+git clone https://github.com/bairesoft/bairesoft-react.git
 
-# Navigate to project directory
+# Entrar al directorio
 cd bairesoft-react
 
-# Install dependencies
-npm install
+# Instalar dependencias
+npm ci
 
-# Start development server
+# Iniciar servidor de desarrollo
 npm run dev
 ```
 
-### Building for Production
+## Scripts Disponibles
 
-```bash
-# Create production build
-npm run build
+- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run build` - Construye la aplicación para producción
+- `npm run preview` - Previsualiza la construcción de producción
+- `npm run lint` - Ejecuta el linter
+- `npm test` - Ejecuta los tests
 
-# Preview production build locally
-npm run preview
-```
+## Variables de Entorno
 
-## Deployment
-
-This project is configured for deployment on [Render.com](https://render.com).
-
-### Deployment Steps
-
-1. Push your code to GitHub
-2. Create a new Web Service on Render
-3. Connect your GitHub repository
-4. Use the following settings:
-   - Build Command: `npm install && npm run build`
-   - Start Command: Not required (static site)
-   - Publish Directory: `build`
-
-## Environment Variables
-
-Create a `.env` file in the root directory:
+Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
-VITE_API_URL=your_api_url
+VITE_GA_TRACKING_ID=tu-id-de-google-analytics
+VITE_SENTRY_DSN=tu-dsn-de-sentry
 ```
 
-## Performance Optimizations
+## Estructura del Proyecto
 
-- Virtual rendering for blog posts
-- Lazy loading of images and components
-- Debounced search
-- Memoized components
-- Optimized bundle size
+```
+bairesoft-react/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── hooks/
+│   ├── layouts/
+│   ├── pages/
+│   ├── services/
+│   ├── styles/
+│   └── utils/
+├── tests/
+└── package.json
+```
 
-## Contributing
+## Despliegue
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+La aplicación está configurada para desplegarse en Render.com. El despliegue se realiza automáticamente al hacer push a la rama main.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details
+[MIT](LICENSE)
+
+## Contribuir
+
+Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría realizar.
+
+## Contacto
+
+Para más información, contacta con nosotros en [info@bairesoft.com](mailto:info@bairesoft.com)

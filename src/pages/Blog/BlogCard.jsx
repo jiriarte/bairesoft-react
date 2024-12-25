@@ -79,7 +79,7 @@ const BlogCard = ({ post, priority = false }) => {
       >
         <ImageContainer>
           <LazyImage
-            src={post.image}
+            src={post.imageUrl}
             alt={post.title}
             height="200px"
             priority={priority}
