@@ -35,6 +35,9 @@ const Insights = lazy(() => import('./pages/Insights'));
 const InnovacionDigital = lazy(() => import('./pages/Insights/InnovacionDigital'));
 const TransformacionEmpresarial = lazy(() => import('./pages/Insights/TransformacionEmpresarial'));
 const TendenciasTecnologicas = lazy(() => import('./pages/Insights/TendenciasTecnologicas'));
+const PoliticaPrivacidad = lazy(() => import('./pages/PoliticaPrivacidad'));
+const PoliticaCookies = lazy(() => import('./pages/PoliticaCookies'));
+const TerminosServicio = lazy(() => import('./pages/TerminosServicio'));
 
 function App() {
   return (
@@ -71,6 +74,9 @@ function App() {
                 <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
                 <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
                 <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
+                <Route path="/privacy-policy" element={<PoliticaPrivacidad />} />
+                <Route path="/cookie-policy" element={<PoliticaCookies />} />
+                <Route path="/terms-of-service" element={<TerminosServicio />} />
               </Routes>
             </Suspense>
             <CookieConsent />

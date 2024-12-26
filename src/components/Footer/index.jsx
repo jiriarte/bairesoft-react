@@ -5,7 +5,7 @@ import Logo from '../Logo';
 
 const FooterContainer = styled.footer`
   background: ${props => props.theme.colors.background};
-  padding: 5rem 2rem 2rem;
+  padding: 2rem 2rem 1.5rem;
   color: ${props => props.theme.colors.text};
 `;
 
@@ -14,35 +14,40 @@ const FooterContent = styled.div`
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4rem;
+  gap: 1.5rem;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1rem;
   }
 `;
 
 const FooterColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
 `;
 
 const LogoContainer = styled.div`
   margin-bottom: 2rem;
+  transform: translateY(-0.25rem);
+  img {
+    max-width: 150px;
+    height: auto;
+  }
 `;
 
 const FooterTitle = styled.h3`
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   background: ${props => props.theme.colors.gradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -50,12 +55,13 @@ const FooterTitle = styled.h3`
 
 const FooterLink = styled(Link)`
   color: ${props => props.theme.colors.textLight};
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   text-decoration: none;
+  padding: 0.1rem 0;
 
   &:hover {
     color: ${props => props.theme.colors.text};
@@ -64,12 +70,13 @@ const FooterLink = styled(Link)`
 
 const ExternalLink = styled.a`
   color: ${props => props.theme.colors.textLight};
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   text-decoration: none;
+  padding: 0.1rem 0;
 
   &:hover {
     color: ${props => props.theme.colors.text};
@@ -78,19 +85,22 @@ const ExternalLink = styled.a`
 
 const FooterText = styled.p`
   color: ${props => props.theme.colors.textLight};
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  margin: 0;
+  padding: 0.1rem 0;
+  max-width: 85%;
 `;
 
 const SocialLinks = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
 `;
 
 const SocialIcon = styled(motion.a)`
   color: ${props => props.theme.colors.text};
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: color 0.3s ease;
 
   &:hover {
@@ -100,8 +110,8 @@ const SocialIcon = styled(motion.a)`
 
 const BottomBar = styled.div`
   max-width: 1200px;
-  margin: 4rem auto 0;
-  padding-top: 2rem;
+  margin: 1.5rem auto 0;
+  padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
@@ -109,14 +119,14 @@ const BottomBar = styled.div`
   
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
     text-align: center;
   }
 `;
 
 const Copyright = styled.p`
   color: ${props => props.theme.colors.textLight};
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 `;
 
 const Footer = () => {
@@ -191,13 +201,13 @@ const Footer = () => {
           {new Date().getFullYear()} Bairesoft. Todos los derechos reservados.
         </Copyright>
         <div>
-          <FooterLink to="/politica-privacidad" style={{ marginRight: '1.5rem' }}>
+          <FooterLink to="/privacy-policy" style={{ marginRight: '1rem' }}>
             Política de Privacidad
           </FooterLink>
-          <FooterLink to="/politica-cookies" style={{ marginRight: '1.5rem' }}>
+          <FooterLink to="/cookie-policy" style={{ marginRight: '1rem' }}>
             Política de Cookies
           </FooterLink>
-          <FooterLink to="/terminos-servicio">
+          <FooterLink to="/terms-of-service">
             Términos y Condiciones
           </FooterLink>
         </div>

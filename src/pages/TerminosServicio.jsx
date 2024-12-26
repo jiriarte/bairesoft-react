@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 
 const Container = styled(motion.div)`
   max-width: 800px;
@@ -59,6 +60,12 @@ const LastUpdated = styled.p`
 const TerminosServicio = () => {
   return (
     <Layout>
+      <SEO 
+        title="Términos y Condiciones | Bairesoft"
+        description="Términos y condiciones de servicio de Bairesoft. Información detallada sobre nuestros servicios, acuerdos, propiedad intelectual y condiciones de uso."
+        keywords="términos y condiciones, condiciones de servicio, acuerdo legal, términos de uso, servicios software, desarrollo web"
+        canonical="/terms-of-service"
+      />
       <Container
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -104,97 +111,48 @@ const TerminosServicio = () => {
         <Section>
           <SectionTitle>3. Propiedad Intelectual</SectionTitle>
           <Text>
-            Una vez completado el pago total del proyecto:
+            Todos los derechos de propiedad intelectual del código fuente, diseños y documentación desarrollados 
+            específicamente para el cliente serán transferidos al cliente una vez completado el pago total del proyecto.
           </Text>
-          <List>
-            <ListItem>El cliente recibirá todos los derechos de propiedad del código fuente desarrollado específicamente para su proyecto</ListItem>
-            <ListItem>Las bibliotecas y componentes de terceros mantendrán sus respectivas licencias</ListItem>
-            <ListItem>Bairesoft mantendrá el derecho de usar conceptos y técnicas generales aprendidas durante el desarrollo</ListItem>
-          </List>
         </Section>
 
         <Section>
           <SectionTitle>4. Confidencialidad</SectionTitle>
           <Text>
-            Nos comprometemos a:
+            Nos comprometemos a mantener la confidencialidad de toda la información proporcionada por el cliente. 
+            Esta obligación se extiende más allá de la finalización del proyecto.
           </Text>
-          <List>
-            <ListItem>Mantener la confidencialidad de toda la información del cliente</ListItem>
-            <ListItem>No divulgar información sensible a terceros</ListItem>
-            <ListItem>Implementar medidas de seguridad apropiadas</ListItem>
-            <ListItem>Firmar acuerdos de confidencialidad específicos cuando sea necesario</ListItem>
-          </List>
         </Section>
 
         <Section>
           <SectionTitle>5. Pagos</SectionTitle>
-          <Text>
-            Nuestras condiciones de pago incluyen:
-          </Text>
           <List>
-            <ListItem>Un depósito inicial del 30% para comenzar el proyecto</ListItem>
-            <ListItem>Pagos intermedios según los hitos acordados</ListItem>
-            <ListItem>Pago final antes de la entrega del código fuente</ListItem>
-            <ListItem>Métodos de pago aceptados: transferencia bancaria, tarjeta de crédito</ListItem>
+            <ListItem>Los pagos se realizarán según el calendario acordado en el contrato</ListItem>
+            <ListItem>Se requiere un depósito inicial antes de comenzar el trabajo</ListItem>
+            <ListItem>Los pagos finales deben completarse antes de la entrega final</ListItem>
+            <ListItem>Todos los precios están sujetos a cambios con previo aviso</ListItem>
           </List>
         </Section>
 
         <Section>
-          <SectionTitle>6. Garantía y Mantenimiento</SectionTitle>
+          <SectionTitle>6. Garantía y Soporte</SectionTitle>
           <Text>
-            Ofrecemos:
-          </Text>
-          <List>
-            <ListItem>Garantía de 3 meses en todos los desarrollos</ListItem>
-            <ListItem>Corrección de errores sin costo durante el período de garantía</ListItem>
-            <ListItem>Planes de mantenimiento opcionales después del período de garantía</ListItem>
-            <ListItem>Soporte técnico según el acuerdo de nivel de servicio</ListItem>
-          </List>
-        </Section>
-
-        <Section>
-          <SectionTitle>7. Cancelación</SectionTitle>
-          <Text>
-            En caso de cancelación:
-          </Text>
-          <List>
-            <ListItem>El cliente deberá pagar por todo el trabajo completado hasta la fecha</ListItem>
-            <ListItem>El depósito inicial no es reembolsable</ListItem>
-            <ListItem>Se entregará todo el trabajo realizado hasta el momento</ListItem>
-            <ListItem>Se aplicarán las cláusulas de confidencialidad acordadas</ListItem>
-          </List>
-        </Section>
-
-        <Section>
-          <SectionTitle>8. Limitación de Responsabilidad</SectionTitle>
-          <Text>
-            Bairesoft no será responsable por:
-          </Text>
-          <List>
-            <ListItem>Pérdidas indirectas o consecuentes</ListItem>
-            <ListItem>Problemas causados por modificaciones realizadas por terceros</ListItem>
-            <ListItem>Interrupciones de servicio fuera de nuestro control</ListItem>
-            <ListItem>Daños causados por uso indebido del software</ListItem>
-          </List>
-        </Section>
-
-        <Section>
-          <SectionTitle>9. Modificaciones</SectionTitle>
-          <Text>
-            Bairesoft se reserva el derecho de modificar estos términos y condiciones en cualquier momento. 
-            Los cambios entrarán en vigor inmediatamente después de su publicación en nuestro sitio web.
+            Ofrecemos un período de garantía de 3 meses para todos nuestros desarrollos, durante el cual 
+            corregiremos cualquier error o problema técnico sin costo adicional.
           </Text>
         </Section>
 
         <Section>
-          <SectionTitle>10. Ley Aplicable</SectionTitle>
+          <SectionTitle>7. Limitación de Responsabilidad</SectionTitle>
           <Text>
-            Estos términos y condiciones se rigen por las leyes de España. Cualquier disputa será sometida 
-            a la jurisdicción exclusiva de los tribunales de Madrid, España.
+            Bairesoft no será responsable de daños indirectos, incidentales o consecuentes que surjan 
+            del uso de nuestros servicios.
           </Text>
         </Section>
 
-        <LastUpdated>Última actualización: Diciembre 2023</LastUpdated>
+        <LastUpdated>
+          Última actualización: Diciembre 2023
+        </LastUpdated>
       </Container>
     </Layout>
   );

@@ -13,6 +13,11 @@ Allow: /blog/*
 Allow: /contact
 Allow: /schedule
 
+# Legal pages
+Allow: /privacy-policy
+Allow: /cookie-policy
+Allow: /terms-of-service
+
 # Prevent crawling of non-essential pages and resources
 Disallow: /static/
 Disallow: /assets/
@@ -49,11 +54,8 @@ User-agent: SemrushBot
 Crawl-delay: 10
 
 # Block known malicious bots
-User-agent: MJ12bot
+User-agent: PetalBot
 Disallow: /
 
 User-agent: DotBot
 Disallow: /
-
-# Host
-Host: https://bairesoft.com
