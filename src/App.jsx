@@ -6,7 +6,6 @@ import theme from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
 import Loading from './components/Loading';
 import Navbar from './components/Navbar';
-import Layout from './components/Layout';
 import CookieConsent from './components/CookieConsent';
 import FontOptimizer from './components/FontOptimizer';
 import ResourceOptimizer from './components/ResourceOptimizer';
@@ -47,40 +46,38 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <Layout>
-            <Navbar />
-            <Suspense fallback={<Loading />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/desarrollo-web" element={<DesarrolloWeb />} />
-                <Route path="/services/aplicaciones-web" element={<AplicacionesWeb />} />
-                <Route path="/services/apps-moviles" element={<AppsMoviles />} />
-                <Route path="/services/low-code" element={<LowCode />} />
-                <Route path="/services/ia-machine-learning" element={<IAMachineLearning />} />
-                <Route path="/services/consultoria-it" element={<ConsultoriaIT />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/projects/e-commerce-platform" element={<EcommercePlatform />} />
-                <Route path="/projects/app-de-gestion" element={<AppGestion />} />
-                <Route path="/projects/iot-dashboard" element={<IoTDashboard />} />
-                <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
-                <Route path="/projects/sistema-de-reservas" element={<SistemaReservas />} />
-                <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:id" element={<BlogPost />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/schedule" element={<Schedule />} />
-                <Route path="/insights" element={<Insights />} />
-                <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
-                <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
-                <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
-                <Route path="/privacy-policy" element={<PoliticaPrivacidad />} />
-                <Route path="/cookie-policy" element={<PoliticaCookies />} />
-                <Route path="/terms-of-service" element={<TerminosServicio />} />
-              </Routes>
-            </Suspense>
-            <CookieConsent />
-          </Layout>
+          <Navbar />
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/desarrollo-web" element={<DesarrolloWeb />} />
+              <Route path="/services/aplicaciones-web" element={<AplicacionesWeb />} />
+              <Route path="/services/apps-moviles" element={<AppsMoviles />} />
+              <Route path="/services/low-code" element={<LowCode />} />
+              <Route path="/services/ia-machine-learning" element={<IAMachineLearning />} />
+              <Route path="/services/consultoria-it" element={<ConsultoriaIT />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/e-commerce-platform" element={<EcommercePlatform />} />
+              <Route path="/projects/app-de-gestion" element={<AppGestion />} />
+              <Route path="/projects/iot-dashboard" element={<IoTDashboard />} />
+              <Route path="/projects/erp-industrial" element={<ERPIndustrial />} />
+              <Route path="/projects/sistema-de-reservas" element={<SistemaReservas />} />
+              <Route path="/projects/plataforma-educativa" element={<PlataformaEducativa />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/insights/innovacion-digital" element={<InnovacionDigital />} />
+              <Route path="/insights/transformacion-empresarial" element={<TransformacionEmpresarial />} />
+              <Route path="/insights/tendencias-tecnologicas" element={<TendenciasTecnologicas />} />
+              <Route path="/privacy-policy" element={<PoliticaPrivacidad />} />
+              <Route path="/cookie-policy" element={<PoliticaCookies />} />
+              <Route path="/terms-of-service" element={<TerminosServicio />} />
+            </Routes>
+          </Suspense>
+          <CookieConsent />
         </ThemeProvider>
       </Router>
     </HelmetProvider>
