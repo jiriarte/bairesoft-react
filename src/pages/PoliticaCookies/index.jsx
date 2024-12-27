@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Layout from '../../components/Layout';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
 
@@ -51,7 +50,7 @@ const ListItem = styled.li`
 
 const PoliticaCookies = () => {
   return (
-    <Layout>
+    <>
       <SEO 
         title="Política de Cookies | Bairesoft"
         description="Información sobre el uso de cookies en Bairesoft. Aprenda cómo utilizamos las cookies para mejorar su experiencia de navegación y cómo puede controlarlas."
@@ -121,7 +120,7 @@ const PoliticaCookies = () => {
           </Text>
         </Section>
       </Container>
-    </Layout>
+    </>
   );
 };
 

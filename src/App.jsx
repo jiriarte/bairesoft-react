@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import CookieConsent from './components/CookieConsent';
 import FontOptimizer from './components/FontOptimizer';
 import ResourceOptimizer from './components/ResourceOptimizer';
+import Footer from './components/Footer'; // Importamos el Footer
 
 // Lazy loaded components
 const Home = lazy(() => import('./pages/Home'));
@@ -77,6 +78,7 @@ function App() {
               <Route path="/terms-of-service" element={<TerminosServicio />} />
             </Routes>
           </Suspense>
+          <Footer />
           <CookieConsent />
         </ThemeProvider>
       </Router>

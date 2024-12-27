@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Layout from '../components/Layout';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
@@ -59,7 +58,7 @@ const LastUpdated = styled.p`
 
 const TerminosServicio = () => {
   return (
-    <Layout>
+    <>
       <SEO 
         title="Términos y Condiciones | Bairesoft"
         description="Términos y condiciones de servicio de Bairesoft. Información detallada sobre nuestros servicios, acuerdos, propiedad intelectual y condiciones de uso."
@@ -154,7 +153,7 @@ const TerminosServicio = () => {
           Última actualización: Diciembre 2023
         </LastUpdated>
       </Container>
-    </Layout>
+    </>
   );
 };
 

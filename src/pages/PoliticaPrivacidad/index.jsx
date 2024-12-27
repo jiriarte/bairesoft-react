@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Layout from '../../components/Layout';
 import { motion } from 'framer-motion';
 import SEO from '../../components/SEO';
 
@@ -51,7 +50,7 @@ const ListItem = styled.li`
 
 const PoliticaPrivacidad = () => {
   return (
-    <Layout>
+    <>
       <SEO 
         title="Política de Privacidad | Bairesoft"
         description="Conozca cómo Bairesoft protege y gestiona sus datos personales. Información detallada sobre la recopilación, uso y protección de datos de nuestros usuarios."
@@ -157,7 +156,7 @@ const PoliticaPrivacidad = () => {
           </Text>
         </Section>
       </Container>
-    </Layout>
+    </>
   );
 };
 
